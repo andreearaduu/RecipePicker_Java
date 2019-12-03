@@ -1,13 +1,13 @@
-package com.AndreeaRadu.recipe;
+package com.andreearadu.recipepicker;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RecipeApplication {
+public class RecipepickerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RecipeApplication.class, args);
+		SpringApplication.run(RecipepickerApplication.class, args);
 	}
 
 }
