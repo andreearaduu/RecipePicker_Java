@@ -16,3 +16,10 @@ The user provides the ingredients and application should return the recipes that
 5. After introducing the ingredients, the user can see the recipes sorted by popularity, review, time of cooking.
 6. The most popular recipe will be shown in the main menu( also when a food category is picked).
 
+
+---
+
+## Information
+To run the application a database should be created with name: recipedb , username: root , password: lite1998 
+
+
