@@ -2,12 +2,11 @@ package com.andreearadu.recipepicker.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -21,26 +20,19 @@ public class User {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "username", unique = true)
-	@NotNull
-	private String username;
-
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	@NotNull
 	private String password;
 
 	@Email
-	@Column(name = "email", unique = true)
+	@Column(name = "email", unique = true, nullable = false)
 	@NotNull
 	private String email;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Recipe> modifiedRecipes;
-
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Recipe> favoriteRecipes;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Recipe> cookedRecipes;
 
 	public Long getId() {
@@ -49,14 +41,6 @@ public class User {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getPassword() {
@@ -75,14 +59,6 @@ public class User {
 		this.email = email;
 	}
 
-	public List<Recipe> getModifiedRecipes() {
-		return modifiedRecipes;
-	}
-
-	public void setModifiedRecipes(List<Recipe> modifiedRecipes) {
-		this.modifiedRecipes = modifiedRecipes;
-	}
-
 	public List<Recipe> getFavoriteRecipes() {
 		return favoriteRecipes;
 	}
@@ -98,10 +74,5 @@ public class User {
 	public void setCookedRecipes(List<Recipe> cookedRecipes) {
 		this.cookedRecipes = cookedRecipes;
 	}
-	
-	
-	
-	
-	
 
 }

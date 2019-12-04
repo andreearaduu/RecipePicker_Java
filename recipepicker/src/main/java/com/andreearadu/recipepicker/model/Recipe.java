@@ -2,58 +2,73 @@ package com.andreearadu.recipepicker.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+enum Category {
+	FAST_FOOD, BREAKFAST, LUNCH, DINNER, DESSERT
+}
 
 @Entity
 @Table(name = "recipe")
 public class Recipe {
 
 	@Id
-	@Column(name = "name")
-	@NotNull
+	@GeneratedValue
+	@Column(name = "id")
+	private Long id;
+
+	@Column(name = "name",nullable = false)
 	private String name;
 
-	@Column(name = "description")
+	@Column(name = "description", nullable = false)
 	@NotNull
 	private String description;
 
-	@Column(name = "time")
+	@Column(name = "time_in_minutes", nullable = false)
 	@NotNull
-	private int timeOfCooking;
+	private int cookingTimeInMinutes;
 
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "recipe_ingredients")
-	private List<Ingredient> ingredients;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "foodCategory", nullable = false)
+	@NotNull
+	private Category category;
 
-	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany
 	private List<Review> reviews;
 
-	
-	@ManyToOne
-	private Food food;
-	
-	
-	@ManyToOne
-	private User userModifiedRecipes;
+	@ManyToMany
+	private List<Ingredient> ingredients;
 
-	@ManyToOne
-	private User userFavoriteRecepies;
+	@ManyToMany
+	private List<User> userFavoriteRecepies;
 
-	@ManyToOne
-	private User userCookedRecepies;
+	@ManyToMany
+	private List< User> userCookedRecepies;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public String getName() {
 		return name;
@@ -71,12 +86,12 @@ public class Recipe {
 		this.description = description;
 	}
 
-	public int getTimeOfCooking() {
-		return timeOfCooking;
+	public int getCookingTimeInMinutes() {
+		return cookingTimeInMinutes;
 	}
 
-	public void setTimeOfCooking(int timeOfCooking) {
-		this.timeOfCooking = timeOfCooking;
+	public void setCookingTimeInMinutes(int cookingTimeInMinutes) {
+		this.cookingTimeInMinutes = cookingTimeInMinutes;
 	}
 
 	public List<Ingredient> getIngredients() {
@@ -95,40 +110,21 @@ public class Recipe {
 		this.reviews = reviews;
 	}
 
-	public Food getFood() {
-		return food;
-	}
-
-	public void setFood(Food food) {
-		this.food = food;
-	}
-
-	public User getUserModifiedRecipes() {
-		return userModifiedRecipes;
-	}
-
-	public void setUserModifiedRecipes(User userModifiedRecipes) {
-		this.userModifiedRecipes = userModifiedRecipes;
-	}
-
-	public User getUserFavoriteRecepies() {
+	public List<User> getUserFavoriteRecepies() {
 		return userFavoriteRecepies;
 	}
 
-	public void setUserFavoriteRecepies(User userFavoriteRecepies) {
+	public void setUserFavoriteRecepies(List<User> userFavoriteRecepies) {
 		this.userFavoriteRecepies = userFavoriteRecepies;
 	}
 
-	public User getUserCookedRecepies() {
+	public List<User> getUserCookedRecepies() {
 		return userCookedRecepies;
 	}
 
-	public void setUserCookedRecepies(User userCookedRecepies) {
+	public void setUserCookedRecepies(List<User> userCookedRecepies) {
 		this.userCookedRecepies = userCookedRecepies;
 	}
-	
-	
-	
-	
 
+	
 }

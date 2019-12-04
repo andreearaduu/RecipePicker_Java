@@ -1,10 +1,10 @@
 package com.andreearadu.recipepicker.model;
 
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,24 +16,26 @@ enum Stars {
 
 @Entity
 @Table(name = "review")
-public class Review implements Serializable {
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Review {
 
 	@Id
-	@Column(name = "description")
+	@GeneratedValue
+	@Column(name = "id",nullable = false)
+	private Long id;
+
+	@Column(name = "description",nullable = false)
 	@NotNull
 	private String description;
 
-	@Id
+	
+	@Column(name="stars",nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Stars stars;
 
 	@ManyToOne
 	private Recipe recipe;
+	
+	
 
 	public String getDescription() {
 		return description;
@@ -58,8 +60,5 @@ public class Review implements Serializable {
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
 	}
-	
-	
-	
 
 }
