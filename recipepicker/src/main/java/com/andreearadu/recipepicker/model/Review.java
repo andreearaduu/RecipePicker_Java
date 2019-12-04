@@ -10,16 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-enum NoOfStars {
-	STARS_5(5), STARS_4(4), STARS_3(3), STARS_2(2), STARS_1(1);
-
-	@SuppressWarnings("unused")
-	private final int number;
-
-	private NoOfStars(int number) {
-		this.number = number;
-	}
-
+enum Stars {
+	ONE, TWO, THREE, FOUR, FIVE
 }
 
 @Entity
@@ -38,9 +30,36 @@ public class Review implements Serializable {
 
 	@Id
 	@Enumerated(EnumType.STRING)
-	private NoOfStars noOfStars;
+	private Stars stars;
 
 	@ManyToOne
 	private Recipe recipe;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Stars getStars() {
+		return stars;
+	}
+
+	public void setStars(Stars stars) {
+		this.stars = stars;
+	}
+
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
+	
+	
+	
 
 }

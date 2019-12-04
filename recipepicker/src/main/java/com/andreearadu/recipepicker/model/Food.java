@@ -30,6 +30,34 @@ public class Food {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "foodType")
+	@NotNull
 	private Type foodType;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<Recipe> getRecipes() {
+		return recipes;
+	}
+
+	public void setRecipes(List<Recipe> recipes) {
+		this.recipes = recipes;
+	}
+
+	public Type getFoodType() {
+		return foodType;
+	}
+
+	public void setFoodType(Type foodType) {
+		this.foodType = foodType;
+	}
+	
+	
+	
 
 }

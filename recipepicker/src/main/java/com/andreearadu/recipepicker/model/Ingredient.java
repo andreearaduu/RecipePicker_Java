@@ -4,8 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
-
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +17,30 @@ public class Ingredient {
 	@Column(name = "name")
 	private String name;
 
-	@ManyToOne
+	@ManyToMany
 	private Recipe recipe;
+	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Recipe getRecipe() {
+		return recipe;
+	}
+
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
+	
+	
+	
+
+
+	
 
 }
