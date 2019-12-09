@@ -20,22 +20,19 @@ public class Review {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id",nullable = false)
+	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "description",nullable = false)
+	@Column(name = "description", nullable = false)
 	@NotNull
 	private String description;
 
-	
-	@Column(name="stars",nullable = false)
+	@Column(name = "stars", nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Stars stars;
 
 	@ManyToOne
 	private Recipe recipe;
-	
-	
 
 	public String getDescription() {
 		return description;

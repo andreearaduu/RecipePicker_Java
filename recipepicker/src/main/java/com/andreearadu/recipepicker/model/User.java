@@ -35,6 +35,14 @@ public class User {
 	@ManyToMany
 	private List<Recipe> cookedRecipes;
 
+	public void addToFavoriteRecipes(Recipe recipe) {
+		favoriteRecipes.add(recipe);
+	}
+
+	public void addToCookedRecipes(Recipe recipe) {
+		cookedRecipes.add(recipe);
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -26,7 +26,7 @@ public class Recipe {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name",nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "description", nullable = false)
@@ -52,7 +52,7 @@ public class Recipe {
 	private List<User> userFavoriteRecepies;
 
 	@ManyToMany
-	private List< User> userCookedRecepies;
+	private List<User> userCookedRecepies;
 
 	public Long getId() {
 		return id;
@@ -126,5 +126,4 @@ public class Recipe {
 		this.userCookedRecepies = userCookedRecepies;
 	}
 
-	
 }

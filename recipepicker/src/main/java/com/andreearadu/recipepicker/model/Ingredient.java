@@ -14,20 +14,17 @@ import javax.validation.constraints.NotNull;
 @Table(name = "ingredient")
 public class Ingredient {
 
-	
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	private Long id;
-	
-	
+
 	@NotNull
-	@Column(name = "name",nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@ManyToMany
 	private List<Recipe> recipes;
-	
 
 	public Long getId() {
 		return id;
@@ -44,13 +41,5 @@ public class Ingredient {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
-	
-	
-	
-
-
-	
 
 }
