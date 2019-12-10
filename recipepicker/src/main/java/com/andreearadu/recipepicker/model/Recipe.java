@@ -13,10 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-enum Category {
-	FAST_FOOD, BREAKFAST, LUNCH, DINNER, DESSERT
-}
-
 @Entity
 @Table(name = "recipe")
 public class Recipe {
