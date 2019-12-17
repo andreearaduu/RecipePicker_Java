@@ -1,21 +1,23 @@
 package com.andreearadu.recipepicker.dto;
 
-import com.andreearadu.recipepicker.model.Stars;
+import java.time.LocalDate;
 
-public class ReviewDTO {
+import com.andreearadu.recipepicker.modelLayer.Stars;
+
+public class ReviewDto {
 
 	private Long id;
 	private String description;
 	private Stars stars;
-	private RecipeDTO recipe;
-	
+	private RecipeDto recipeDto;
+	private LocalDate date;
 
-	public RecipeDTO getRecipe() {
-		return recipe;
+	public LocalDate getDate() {
+		return date;
 	}
 
-	public void setRecipe(RecipeDTO recipe) {
-		this.recipe = recipe;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
 
 	public Long getId() {
@@ -42,6 +44,12 @@ public class ReviewDTO {
 		this.stars = stars;
 	}
 
-	
+	public RecipeDto getRecipeDto() {
+		return recipeDto;
+	}
+
+	public void setRecipeDto(RecipeDto recipeDto) {
+		this.recipeDto = recipeDto;
+	}
 
 }

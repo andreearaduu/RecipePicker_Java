@@ -1,17 +1,22 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.List;
+import java.util.Set;
 
-import com.andreearadu.recipepicker.model.User;
+import com.andreearadu.recipepicker.dto.RecipeDto;
+import com.andreearadu.recipepicker.dto.UserDto;
 
 public interface UserService {
 
-	List<User> getAllUsers();
+	Set<UserDto> getAllUsers();
 
-	User getUserById(Long id);
+	UserDto getUserByEmail(String email);
 
-	User getUserByEmail(String email);
+	UserDto addUser(UserDto userDTO);
 
-	User saveUser(User user);
+	UserDto updateUser(UserDto userDTO);
+	
+	Set<RecipeDto> addFavoriteRecipe(RecipeDto recipeDto, UserDto userDto);
+	
+	Set<RecipeDto> addCookedRecipe(RecipeDto recipeDto, UserDto userDto);
 
 }

@@ -1,24 +1,27 @@
 package com.andreearadu.recipepicker.service;
 
 import java.util.List;
+import java.util.Set;
 
-import com.andreearadu.recipepicker.model.Category;
-import com.andreearadu.recipepicker.model.Ingredient;
-import com.andreearadu.recipepicker.model.Recipe;
+import com.andreearadu.recipepicker.dto.IngredientDto;
+import com.andreearadu.recipepicker.dto.RecipeDto;
+import com.andreearadu.recipepicker.dto.ReviewDto;
+import com.andreearadu.recipepicker.modelLayer.Category;
 
 public interface RecipeService {
 
-	public List<Recipe> getAllRecipes();
+	Set<RecipeDto> getAllRecipes();
 
-	public Recipe getRecipeById(Long id);
+	Set<RecipeDto> getRecipeByNameLike(String name);
 
-	public List<Recipe> getRecipeByName(String name);
+	Set<RecipeDto> getRecipeByCatgory(Category category);
 
-	public List<Recipe> getRecipeByCatgory(Category category);
+	Set<RecipeDto> getRecipeByCookingTimeLessThan(int cookingTime);
 
-	public List<Recipe> getRecipeByListIngredient(List<Ingredient> ingredients);
+	Set<RecipeDto> getRecipeByListIngredientIn(List<IngredientDto> ingredientsDTO);
 
-	public Recipe saveRecipe(Recipe recipe);
+	Set<ReviewDto> addReview(ReviewDto reviewDto,RecipeDto recipeDto);
 
-	public void deleteRecipe(Recipe recipe);
+	RecipeDto addRecipe(RecipeDto recipeDTO);
+
 }

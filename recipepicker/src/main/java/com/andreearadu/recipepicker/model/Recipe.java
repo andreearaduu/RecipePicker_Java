@@ -13,6 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.andreearadu.recipepicker.modelLayer.Category;
+
 @Entity
 @Table(name = "recipe")
 public class Recipe {

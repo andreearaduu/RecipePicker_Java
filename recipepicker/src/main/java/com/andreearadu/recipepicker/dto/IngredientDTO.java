@@ -2,17 +2,17 @@ package com.andreearadu.recipepicker.dto;
 
 import java.util.List;
 
-public class IngredientDTO {
+public class IngredientDto {
 
 	private Long id;
 	private String name;
-	private List<RecipeDTO> recipes;
+	private List<RecipeDto> recipes;
 
-	public List<RecipeDTO> getRecipes() {
+	public List<RecipeDto> getRecipes() {
 		return recipes;
 	}
 
-	public void setRecipes(List<RecipeDTO> recipes) {
+	public void setRecipes(List<RecipeDto> recipes) {
 		this.recipes = recipes;
 	}
 
