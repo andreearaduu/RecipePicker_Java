@@ -6,11 +6,11 @@ import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
+import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
-import com.andreearadu.recipepicker.modelLayer.Category;
 
 public class RecipeMapperTest {
-	
+
 	Recipe recipe;
 	RecipeDto recipeDto;
 	RecipeMapper recipeMapper;

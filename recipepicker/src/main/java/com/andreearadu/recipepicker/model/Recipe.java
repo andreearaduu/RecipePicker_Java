@@ -1,6 +1,6 @@
 package com.andreearadu.recipepicker.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,8 +12,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.andreearadu.recipepicker.modelLayer.Category;
 
 @Entity
 @Table(name = "recipe")
@@ -41,16 +39,16 @@ public class Recipe {
 	private Category category;
 
 	@OneToMany
-	private List<Review> reviews;
+	private Collection<Review> reviews;
 
 	@ManyToMany
-	private List<Ingredient> ingredients;
+	private Collection<Ingredient> ingredients;
 
 	@ManyToMany
-	private List<User> userFavoriteRecepies;
+	private Collection<User> userFavoriteRecepies;
 
 	@ManyToMany
-	private List<User> userCookedRecepies;
+	private Collection<User> userCookedRecepies;
 
 	public Long getId() {
 		return id;
@@ -92,35 +90,35 @@ public class Recipe {
 		this.cookingTimeInMinutes = cookingTimeInMinutes;
 	}
 
-	public List<Ingredient> getIngredients() {
+	public Collection<Ingredient> getIngredients() {
 		return ingredients;
 	}
 
-	public void setIngredients(List<Ingredient> ingredients) {
+	public void setIngredients(Collection<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
 
-	public List<Review> getReviews() {
+	public Collection<Review> getReviews() {
 		return reviews;
 	}
 
-	public void setReviews(List<Review> reviews) {
+	public void setReviews(Collection<Review> reviews) {
 		this.reviews = reviews;
 	}
 
-	public List<User> getUserFavoriteRecepies() {
+	public Collection<User> getUserFavoriteRecepies() {
 		return userFavoriteRecepies;
 	}
 
-	public void setUserFavoriteRecepies(List<User> userFavoriteRecepies) {
+	public void setUserFavoriteRecepies(Collection<User> userFavoriteRecepies) {
 		this.userFavoriteRecepies = userFavoriteRecepies;
 	}
 
-	public List<User> getUserCookedRecepies() {
+	public Collection<User> getUserCookedRecepies() {
 		return userCookedRecepies;
 	}
 
-	public void setUserCookedRecepies(List<User> userCookedRecepies) {
+	public void setUserCookedRecepies(Collection<User> userCookedRecepies) {
 		this.userCookedRecepies = userCookedRecepies;
 	}
 

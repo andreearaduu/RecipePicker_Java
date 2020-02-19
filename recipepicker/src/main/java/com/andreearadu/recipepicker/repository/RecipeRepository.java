@@ -1,26 +1,23 @@
 package com.andreearadu.recipepicker.repository;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Ingredient;
 import com.andreearadu.recipepicker.model.Recipe;
-import com.andreearadu.recipepicker.modelLayer.Category;
 
 public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
-	Optional<Recipe> findByNameLike(String name);
+	Collection<Recipe> findByNameLike(String name);
 
-	Optional<Recipe> findByCategory(Category category);
+	Collection<Recipe> findByCategory(Category category);
 
-	Optional<Recipe> findByIngredientsIn(List<Ingredient> ingredients);
+	Collection<Recipe> findByIngredientsIn(Collection<Ingredient> ingredients);
 	
-	Optional<Recipe> findRecipeByCookingTimeLessThan(int cookingTime);
+	Collection<Recipe> findRecipeByCookingTimeInMinutesLessThan(int cookingTime);
 
-
-	Set<Recipe> findAll();
+	Collection<Recipe> findAll();
 
 }

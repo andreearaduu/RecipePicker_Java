@@ -13,7 +13,7 @@ import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 
 import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
-import com.andreearadu.recipepicker.modelLayer.Stars;
+import com.andreearadu.recipepicker.model.Stars;
 
 public class ReviewMapperTest {
 

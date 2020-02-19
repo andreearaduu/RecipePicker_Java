@@ -1,6 +1,6 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.Set;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import com.andreearadu.recipepicker.repository.UserRepository;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private UserRepository repository;
-	private UserMapper userMapper;
+	private final UserRepository repository;
+	private final UserMapper userMapper;
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Set<UserDto> getAllUsers() {
+	public Collection<UserDto> getAllUsers() {
 		return repository.findAll().stream().map(userMapper::toDto).collect(Collectors.toSet());
 	}
 
@@ -48,24 +48,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto updateUser(UserDto userDto) {
-		if (userDto == null) {
-			throw new CustomIllegalParameterException("User parameter is null");
-		}
-		return userMapper.toDto(repository.save(userMapper.toEntity(userDto)));
+	public boolean addFavoriteRecipe(RecipeDto recipeDto, UserDto userDto) {
+		return userDto.addToFavoriteRecipes(recipeDto);
+
 	}
 
 	@Override
-	public Set<RecipeDto> addFavoriteRecipe(RecipeDto recipeDto, UserDto userDto) {
-		userDto.addToFavoriteRecipes(recipeDto);
-		return userDto.getFavoriteRecipes();
-	}
-
-	@Override
-	public Set<RecipeDto> addCookedRecipe(RecipeDto recipeDto, UserDto userDto) {
-
-		userDto.addToCookedRecipes(recipeDto);
-		return userDto.getCookedRecipes();
+	public boolean addCookedRecipe(RecipeDto recipeDto, UserDto userDto) {
+		return userDto.addToCookedRecipes(recipeDto);
 
 	}
 
