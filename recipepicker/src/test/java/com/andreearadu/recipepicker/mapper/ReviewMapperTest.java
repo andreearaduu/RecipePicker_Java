@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
@@ -13,7 +14,7 @@ import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 
 import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
-import com.andreearadu.recipepicker.modelLayer.Stars;
+import com.andreearadu.recipepicker.model.Stars;
 
 public class ReviewMapperTest {
 
@@ -25,9 +26,9 @@ public class ReviewMapperTest {
 	LocalDate dateForEntity;
 	LocalDate dateForDto;
 
+	@Before
 	public void setUp() {
-		this.review = new Review();
-		this.reviewDto = new ReviewDto();
+
 		this.reviewMapper = new ReviewMapper();
 		this.recipe = new Recipe();
 		this.recipeDto = new RecipeDto();
@@ -37,7 +38,6 @@ public class ReviewMapperTest {
 
 	@Test
 	public void testMappToDto() {
-		setUp();
 		initReview();
 		ReviewDto reviewDto = reviewMapper.toDto(review);
 		assertThat(reviewDto.getId()).isEqualTo(review.getId());
@@ -48,18 +48,9 @@ public class ReviewMapperTest {
 
 	}
 
-	private void initReview() {
-		review.setId(1L);
-		review.setDate(dateForEntity);
-		review.setDescription("Description of the review");
-		review.setRecipe(recipe);
-		review.setStars(Stars.FIVE);
-
-	}
-
 	@Test
 	public void testMappToEntity() {
-		setUp();
+
 		initReviewDto();
 
 		Review review = reviewMapper.toEntity(reviewDto);
@@ -70,26 +61,34 @@ public class ReviewMapperTest {
 		assertThat(review.getStars()).isEqualTo(reviewDto.getStars());
 	}
 
-	private void initReviewDto() {
-		reviewDto.setId(2L);
-		reviewDto.setDate(dateForDto);
-		reviewDto.setDescription("Description of the review");
-		reviewDto.setRecipeDto(recipeDto);
-		reviewDto.setStars(Stars.FOUR);
-
-	}
-
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullReviewToDto() {
 		reviewMapper = new ReviewMapper();
 		reviewDto = reviewMapper.toDto(review);
-
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullReviewToEntity() {
 		reviewMapper = new ReviewMapper();
 		review = reviewMapper.toEntity(reviewDto);
-
 	}
+
+	private void initReviewDto() {
+		reviewDto = new ReviewDto();
+		reviewDto.setId(2L);
+		reviewDto.setDate(dateForDto);
+		reviewDto.setDescription("Description of the review");
+		reviewDto.setRecipeDto(recipeDto);
+		reviewDto.setStars(Stars.FOUR);
+	}
+
+	private void initReview() {
+		review = new Review();
+		review.setId(1L);
+		review.setDate(dateForEntity);
+		review.setDescription("Description of the review");
+		review.setRecipe(recipe);
+		review.setStars(Stars.FIVE);
+	}
+
 }

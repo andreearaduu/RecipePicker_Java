@@ -1,9 +1,9 @@
 package com.andreearadu.recipepicker.dto;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
-import com.andreearadu.recipepicker.modelLayer.Category;
+import com.andreearadu.recipepicker.model.Category;
 
 public class RecipeDto {
 
@@ -12,20 +12,21 @@ public class RecipeDto {
 	private String description;
 	private int cookingTimeInMinutes;
 	private Category category;
-	private Set<ReviewDto> reviews;
-	private List<IngredientDto> ingredients;
-	private List<UserDto> userFavoriteRecepies;
-	private List<UserDto> userCookedRecepies;
+	private Collection<ReviewDto> reviews;
+	private Collection<IngredientDto> ingredients;
+	
+	private Collection<UserDto> userFavoriteRecepies;
+	private Collection<UserDto> userCookedRecepies;
 
-	public Set<ReviewDto> getReviews() {
+	public Collection<ReviewDto> getReviews() {
 		return reviews;
 	}
 
-	public void setReviews(Set<ReviewDto> reviews) {
+	public void setReviews(Collection<ReviewDto> reviews) {
 		this.reviews = reviews;
 	}
 
-	public List<IngredientDto> getIngredients() {
+	public Collection<IngredientDto> getIngredients() {
 		return ingredients;
 	}
 
@@ -33,7 +34,7 @@ public class RecipeDto {
 		this.ingredients = ingredients;
 	}
 
-	public List<UserDto> getUserFavoriteRecepies() {
+	public Collection<UserDto> getUserFavoriteRecepies() {
 		return userFavoriteRecepies;
 	}
 
@@ -41,7 +42,7 @@ public class RecipeDto {
 		this.userFavoriteRecepies = userFavoriteRecepies;
 	}
 
-	public List<UserDto> getUserCookedRecepies() {
+	public Collection<UserDto> getUserCookedRecepies() {
 		return userCookedRecepies;
 	}
 

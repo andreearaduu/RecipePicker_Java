@@ -1,7 +1,6 @@
 package com.andreearadu.recipepicker.model;
 
-import java.util.List;
-
+import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,11 +28,12 @@ public class User {
 	@NotNull
 	private String email;
 
+	
 	@ManyToMany
-	private List<Recipe> favoriteRecipes;
+	private Collection<Recipe> favoriteRecipes;
 
 	@ManyToMany
-	private List<Recipe> cookedRecipes;
+	private Collection<Recipe> cookedRecipes;
 
 	public void addToFavoriteRecipes(Recipe recipe) {
 		favoriteRecipes.add(recipe);
@@ -67,19 +67,19 @@ public class User {
 		this.email = email;
 	}
 
-	public List<Recipe> getFavoriteRecipes() {
+	public Collection<Recipe> getFavoriteRecipes() {
 		return favoriteRecipes;
 	}
 
-	public void setFavoriteRecipes(List<Recipe> favoriteRecipes) {
+	public void setFavoriteRecipes(Collection<Recipe> favoriteRecipes) {
 		this.favoriteRecipes = favoriteRecipes;
 	}
 
-	public List<Recipe> getCookedRecipes() {
+	public Collection<Recipe> getCookedRecipes() {
 		return cookedRecipes;
 	}
 
-	public void setCookedRecipes(List<Recipe> cookedRecipes) {
+	public void setCookedRecipes(Collection<Recipe> cookedRecipes) {
 		this.cookedRecipes = cookedRecipes;
 	}
 

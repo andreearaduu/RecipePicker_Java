@@ -1,15 +1,15 @@
 package com.andreearadu.recipepicker.service;
 
 
-import java.util.Set;
+import java.util.Collection;
 
 import com.andreearadu.recipepicker.dto.IngredientDto;
 
 public interface IngredientService {
 
-	Set<IngredientDto> getAllIngredients();
+	Collection<IngredientDto> getAllIngredients();
 
-	Set<IngredientDto> getIngredientByNameLike(String name);
+	Collection<IngredientDto> getIngredients(String name);
 
 	IngredientDto addIngredient(IngredientDto ingredientDto);
 

@@ -1,6 +1,6 @@
 package com.andreearadu.recipepicker.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class Ingredient {
 	private String name;
 
 	@ManyToMany
-	private List<Recipe> recipes;
+	private Collection<Recipe> recipes;
 
 	public Long getId() {
 		return id;

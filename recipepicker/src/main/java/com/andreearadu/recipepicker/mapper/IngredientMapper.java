@@ -1,9 +1,12 @@
 package com.andreearadu.recipepicker.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.andreearadu.recipepicker.dto.IngredientDto;
 import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 import com.andreearadu.recipepicker.model.Ingredient;
 
+@Component
 public class IngredientMapper {
 
 	public IngredientDto toDto(Ingredient ingredient) {

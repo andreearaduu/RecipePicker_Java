@@ -1,4 +1,4 @@
-package com.andreearadu.recipepicker.modelLayer;
+package com.andreearadu.recipepicker.model;
 
 public enum Stars {
 	ONE, TWO, THREE, FOUR, FIVE

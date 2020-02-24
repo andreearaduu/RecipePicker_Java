@@ -1,6 +1,6 @@
 package com.andreearadu.recipepicker.repository;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,5 +10,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	User findByEmail(String email);
 
-	Set<User> findAll();
+	Collection<User> findAll();
+
 }

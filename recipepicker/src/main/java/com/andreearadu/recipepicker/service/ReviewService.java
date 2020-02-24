@@ -1,21 +1,18 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.Set;
+import java.util.Collection;
 
-import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.ReviewDto;
-import com.andreearadu.recipepicker.modelLayer.Stars;
+import com.andreearadu.recipepicker.model.Stars;
 
 public interface ReviewService {
 
-	Set<ReviewDto> getAllReviews();
+	Collection<ReviewDto> getAllReviews();
 
-	Set<ReviewDto> getReviewsByRecipe(RecipeDto recipeDTO);
+	Collection<ReviewDto> getReviewsByRecipe(String name);
 
-	Set<ReviewDto> getReviewByStars(Stars stars);
+	Collection<ReviewDto> getReviewByStars(Stars stars);
 
 	ReviewDto addReview(ReviewDto reviewDTO);
-
-	ReviewDto updateReview(ReviewDto reviewDTO);
 
 }

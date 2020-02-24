@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.andreearadu.recipepicker.modelLayer.Stars;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity

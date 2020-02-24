@@ -2,7 +2,7 @@ package com.andreearadu.recipepicker.dto;
 
 import java.time.LocalDate;
 
-import com.andreearadu.recipepicker.modelLayer.Stars;
+import com.andreearadu.recipepicker.model.Stars;
 
 public class ReviewDto {
 

@@ -1,14 +1,14 @@
 package com.andreearadu.recipepicker.dto;
 
-
-import java.util.Set;
+import java.util.Collection;
 
 public class UserDto {
 
 	private Long id;
 	private String email;
-	private Set<RecipeDto> favoriteRecipes;
-	private Set<RecipeDto> cookedRecipes;
+	private Collection<RecipeDto> favoriteRecipes;
+	private Collection<RecipeDto> cookedRecipes ;
+	
 
 	public Long getId() {
 		return id;
@@ -26,30 +26,28 @@ public class UserDto {
 		this.email = email;
 	}
 
-	public Set<RecipeDto> getFavoriteRecipes() {
+	public Collection<RecipeDto> getFavoriteRecipes() {
 		return favoriteRecipes;
 	}
 
-	public void setFavoriteRecipes(Set<RecipeDto> favoriteRecipes) {
+	public void setFavoriteRecipes(Collection<RecipeDto> favoriteRecipes) {
 		this.favoriteRecipes = favoriteRecipes;
 	}
 
-	public Set<RecipeDto> getCookedRecipes() {
+	public Collection<RecipeDto> getCookedRecipes() {
 		return cookedRecipes;
 	}
 
-	public void setCookedRecipes(Set<RecipeDto> cookedRecipes) {
+	public void setCookedRecipes(Collection<RecipeDto> cookedRecipes) {
 		this.cookedRecipes = cookedRecipes;
 	}
 
-	public void addToFavoriteRecipes(RecipeDto recipeDto) {
-		favoriteRecipes.add(recipeDto);
+	public boolean addToFavoriteRecipes(RecipeDto recipeDto) {
+		return favoriteRecipes.add(recipeDto);
 	}
 
-	public void addToCookedRecipes(RecipeDto recipeDto) {
-		cookedRecipes.add(recipeDto);
+	public boolean addToCookedRecipes(RecipeDto recipeDto) {
+		return cookedRecipes.add(recipeDto);
 	}
-
-	
 
 }

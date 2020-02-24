@@ -2,6 +2,7 @@ package com.andreearadu.recipepicker.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.IngredientDto;
@@ -14,15 +15,14 @@ public class IngredientMapperTest {
 	IngredientDto ingredientDto;
 	IngredientMapper ingredientMapper;
 
+	@Before
 	public void setUp() {
-		this.ingredient = new Ingredient();
-		this.ingredientDto = new IngredientDto();
-		ingredientMapper = new IngredientMapper();
+		this.ingredientMapper = new IngredientMapper();
 	}
 
 	@Test
 	public void testMappToDto() {
-		setUp();
+
 		initIngredient();
 		IngredientDto ingredientDto = ingredientMapper.toDto(ingredient);
 		assertThat(ingredientDto.getId()).isEqualTo(ingredient.getId());
@@ -30,26 +30,13 @@ public class IngredientMapperTest {
 
 	}
 
-	private void initIngredient() {
-		ingredient.setId(1L);
-		ingredient.setName("Flour");
-
-	}
-
 	@Test
 	public void testMappToEntity() {
-		setUp();
-		initIngredientDto();
 
+	    initIngredientDto();
 		Ingredient ingredient = ingredientMapper.toEntity(ingredientDto);
 		assertThat(ingredient.getId()).isEqualTo(ingredientDto.getId());
 		assertThat(ingredient.getName()).isEqualTo(ingredientDto.getName());
-
-	}
-
-	private void initIngredientDto() {
-		ingredientDto.setId(2L);
-		ingredientDto.setName("Rice");
 
 	}
 
@@ -60,4 +47,17 @@ public class IngredientMapperTest {
 
 	}
 
+	private void initIngredientDto() {
+		ingredientDto = new IngredientDto();
+		ingredientDto.setId(2L);
+		ingredientDto.setName("Rice");
+
+	}
+
+	private void initIngredient() {
+		ingredient = new Ingredient();
+		ingredient.setId(1L);
+		ingredient.setName("Flour");
+
+	}
 }
