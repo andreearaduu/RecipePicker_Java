@@ -1,6 +1,5 @@
 package com.andreearadu.recipepicker.service;
 
-
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -46,17 +45,20 @@ public class IngredientServiceImpl implements IngredientService {
 			throw new CustomIllegalParameterException("Ingredient parameter is null");
 		}
 
+		if (repository.existsById(ingredientDto.getId()) == true) {
+			throw new CustomIllegalParameterException("Ingredient already exists");
+		}
 		return ingredientMapper.toDto(repository.save(ingredientMapper.toEntity(ingredientDto)));
 	}
 
 	@Override
-	public boolean removeIngredient(IngredientDto ingredientDto) {
+	public void removeIngredient(IngredientDto ingredientDto) {
 
 		if (ingredientDto == null) {
 			throw new CustomIllegalParameterException("Ingredient parameter is null");
 		}
 		repository.delete(ingredientMapper.toEntity(ingredientDto));
-		return true;
+
 	}
 
 }

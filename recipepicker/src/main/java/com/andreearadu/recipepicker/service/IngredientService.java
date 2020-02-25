@@ -13,6 +13,6 @@ public interface IngredientService {
 
 	IngredientDto addIngredient(IngredientDto ingredientDto);
 
-	boolean removeIngredient(IngredientDto ingredientDto);
+	void removeIngredient(IngredientDto ingredientDto);
 
 }

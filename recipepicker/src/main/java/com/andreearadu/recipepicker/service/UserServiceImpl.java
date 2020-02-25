@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-		super();
+
 		this.repository = userRepository;
 		this.userMapper = userMapper;
 	}
@@ -36,7 +36,8 @@ public class UserServiceImpl implements UserService {
 		if (email == null) {
 			throw new CustomIllegalParameterException("Email parameter is null");
 		}
-		return userMapper.toDto(repository.findByEmail(email));
+		return userMapper.toDto(repository.findByEmail(email).orElseThrow(
+				() -> new CustomIllegalParameterException("User with email: " + email + " was not found")));
 	}
 
 	@Override

@@ -6,20 +6,18 @@ import static org.mockito.Mockito.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.stream.Collectors;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
+
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
-import com.andreearadu.recipepicker.dto.ReviewDto;
-
 import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
+import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.ReviewMapper;
 import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
@@ -35,8 +33,9 @@ public class ReviewServiceImplTest {
 	@MockBean
 	private ReviewRepository repository;
 
-	@InjectMocks
 	private ReviewServiceImpl service;
+
+	private Collection<Review> expectedReviewSet;
 
 	@Before
 	public void setUp() {
@@ -46,30 +45,31 @@ public class ReviewServiceImplTest {
 		service = new ReviewServiceImpl(repository, mapper);
 
 		MockitoAnnotations.initMocks(this);
+
+		expectedReviewSet = new HashSet<Review>();
+
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		recipe.setCategory(Category.BREAD);
+		recipe.setCookingTimeInMinutes(90);
+		recipe.setDescription("description");
+		recipe.setName("bread");
+		LocalDate date = LocalDate.ofYearDay(2014, 100);
+		Review reviewOne = initReview(1L, "description", Stars.ONE, date, recipe);
+		Review reviewTwo = initReview(2L, "description", Stars.ONE, date, recipe);
+		Review reviewThree = initReview(3L, "description", Stars.ONE, date, recipe);
+		expectedReviewSet.add(reviewOne);
+		expectedReviewSet.add(reviewTwo);
+		expectedReviewSet.add(reviewThree);
+
 	}
 
 	@Test
 	public void getAllReviewsTest() {
 
-		
-		Collection<ReviewDto> expectedReviewSet = new HashSet<ReviewDto>();
+		when(repository.findAll()).thenReturn(expectedReviewSet);
 
-		RecipeDto recipe = new RecipeDto();
-		recipe.setId(1L);
-		LocalDate date = LocalDate.ofYearDay(2014, 100);
-		ReviewDto reviewOne = initReviewDto(1L, "description", Stars.ONE, date, recipe);
-		ReviewDto reviewTwo = initReviewDto(2L, "description", Stars.FIVE, date, recipe);
-		ReviewDto reviewThree = initReviewDto(3L, "description", Stars.FOUR, date, recipe);
-		expectedReviewSet.add(reviewOne);
-		expectedReviewSet.add(reviewTwo);
-		expectedReviewSet.add(reviewThree);
-
-		when(repository.findAll())
-				.thenReturn(expectedReviewSet.stream().map(mapper::toEntity).collect(Collectors.toSet()));
-
-		Collection<ReviewDto> actualReviewSet = service.getAllReviews();
-
-		assertEquals(3, actualReviewSet.size());
+		assertEquals(3, service.getAllReviews().size());
 		verify(repository, times(1)).findAll();
 
 	}
@@ -78,44 +78,16 @@ public class ReviewServiceImplTest {
 	public void getReviewsByNullRecipeTest() {
 
 		when(repository.findByRecipeName(null)).thenThrow(CustomIllegalParameterException.class);
-		service.getReviewsByRecipe(null);
+		service.getReviewsForRecipe(null);
 	}
 
 	@Test
 	public void getReviewsByRecipeTest() {
 
-		Recipe recipe = new Recipe();
-		recipe.setId(1L);
-		recipe.setCategory(Category.BREAD);
-		recipe.setCookingTimeInMinutes(90);
-		recipe.setDescription("description");
-		recipe.setName("bread");
-
-		Collection<Review> expectedReviewSet = new HashSet<Review>();
-		LocalDate date = LocalDate.ofYearDay(2014, 100);
-		Review reviewOne = initReview(1L, "description", Stars.ONE, date, recipe);
-		Review reviewTwo = initReview(2L, "description", Stars.FIVE, date, recipe);
-		Review reviewThree = initReview(3L, "description", Stars.FOUR, date, recipe);
-		expectedReviewSet.add(reviewOne);
-		expectedReviewSet.add(reviewTwo);
-		expectedReviewSet.add(reviewThree);
-
 		when(repository.findByRecipeName("bread")).thenReturn(expectedReviewSet);
 
-		Collection<ReviewDto> setReviewDto = service.getReviewsByRecipe("bread");
+		assertEquals(3, service.getReviewsForRecipe("bread").size());
 
-		assertEquals(3, setReviewDto.size());
-
-	}
-
-	private Review initReview(long id, String description, Stars stars, LocalDate date, Recipe recipe) {
-		Review review = new Review();
-		review.setId(id);
-		review.setDescription(description);
-		review.setStars(stars);
-		review.setDate(date);
-		review.setRecipe(recipe);
-		return review;
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
@@ -128,59 +100,51 @@ public class ReviewServiceImplTest {
 	@Test
 	public void getReviewsByStarsTest() {
 
-		Recipe recipe = new Recipe();
-		recipe.setId(1L);
-		recipe.setCategory(Category.BREAD);
-		recipe.setCookingTimeInMinutes(90);
-		recipe.setDescription("description");
-		recipe.setName("bread");
-
-		Collection<Review> expectedReviewSet = new HashSet<Review>();
-		LocalDate date = LocalDate.ofYearDay(2014, 100);
-		Review reviewOne = initReview(1L, "description 1", Stars.ONE, date, recipe);
-		Review reviewTwo = initReview(2L, "description 2", Stars.ONE, date, recipe);
-		expectedReviewSet.add(reviewOne);
-		expectedReviewSet.add(reviewTwo);
-	
-
 		when(repository.findByStars(Stars.ONE)).thenReturn(expectedReviewSet);
 
-		Collection<ReviewDto> setReviewDto = service.getReviewByStars(Stars.ONE);
-
-		assertEquals(2, setReviewDto.size());
+		assertEquals(3, service.getReviewByStars(Stars.ONE).size());
 
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void addNullReviewTest() {
-
+		RecipeDto recipe = new RecipeDto();
+		recipe.setId(1L);
 		when(repository.save(null)).thenThrow(CustomIllegalParameterException.class);
-		service.addReview(null);
+		service.addReview(null, recipe);
+	}
+
+	@Test(expected = CustomIllegalParameterException.class)
+	public void addReviewToNullRecipeTest() {
+		RecipeDto recipe = null;
+		Review review = initReview(1L, "description", Stars.ONE, LocalDate.ofYearDay(2014, 100), null);
+		when(repository.save(review)).thenThrow(CustomIllegalParameterException.class);
+		service.addReview(mapper.toDto(review), recipe);
 	}
 
 	@Test
 	public void addReviewTest() {
 
-		RecipeDto recipeDto = new RecipeDto();
-		recipeDto.setId(1L);
-		ReviewDto reviewDto = initReviewDto(1L, "description", Stars.ONE, LocalDate.ofYearDay(2014, 100), recipeDto);
+		RecipeMapper recipeMapper = new RecipeMapper();
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		Review review = initReview(1L, "description", Stars.ONE, LocalDate.ofYearDay(2014, 100), recipe);
 
-		when(repository.save(Mockito.any(Review.class))).thenReturn(mapper.toEntity(reviewDto));
+		when(repository.save(Mockito.any(Review.class))).thenReturn(review);
 
-		ReviewDto reviewAdded = service.addReview(reviewDto);
-
-		assertEquals(1L, reviewAdded.getId());
-		assertEquals("description", reviewAdded.getDescription());
+		assertEquals(1L, service.addReview(mapper.toDto(review), recipeMapper.toDto(recipe)).getId());
+		assertEquals("description",
+				service.addReview(mapper.toDto(review), recipeMapper.toDto(recipe)).getDescription());
 
 	}
 
-	private ReviewDto initReviewDto(long l, String description, Stars stars, LocalDate date, RecipeDto recipeDto) {
-		ReviewDto reviewDto = new ReviewDto();
-		reviewDto.setId(l);
-		reviewDto.setDescription(description);
-		reviewDto.setStars(stars);
-		reviewDto.setDate(date);
-		reviewDto.setRecipeDto(recipeDto);
-		return reviewDto;
+	private Review initReview(long l, String description, Stars stars, LocalDate date, Recipe recipe) {
+		Review review = new Review();
+		review.setId(l);
+		review.setDescription(description);
+		review.setStars(stars);
+		review.setDate(date);
+		review.setRecipe(recipe);
+		return review;
 	}
 }

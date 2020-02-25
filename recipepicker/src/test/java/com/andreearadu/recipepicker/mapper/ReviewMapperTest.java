@@ -18,8 +18,6 @@ import com.andreearadu.recipepicker.model.Stars;
 
 public class ReviewMapperTest {
 
-	Review review;
-	ReviewDto reviewDto;
 	ReviewMapper reviewMapper;
 	Recipe recipe;
 	RecipeDto recipeDto;
@@ -38,7 +36,7 @@ public class ReviewMapperTest {
 
 	@Test
 	public void testMappToDto() {
-		initReview();
+		Review review = initReview();
 		ReviewDto reviewDto = reviewMapper.toDto(review);
 		assertThat(reviewDto.getId()).isEqualTo(review.getId());
 		assertThat(reviewDto.getDate()).isEqualTo(review.getDate());
@@ -51,7 +49,7 @@ public class ReviewMapperTest {
 	@Test
 	public void testMappToEntity() {
 
-		initReviewDto();
+		ReviewDto reviewDto = initReviewDto();
 
 		Review review = reviewMapper.toEntity(reviewDto);
 		assertThat(review.getId()).isEqualTo(reviewDto.getId());
@@ -63,32 +61,34 @@ public class ReviewMapperTest {
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullReviewToDto() {
-		reviewMapper = new ReviewMapper();
-		reviewDto = reviewMapper.toDto(review);
+		Review review=null;
+		reviewMapper.toDto(review);
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullReviewToEntity() {
-		reviewMapper = new ReviewMapper();
-		review = reviewMapper.toEntity(reviewDto);
+		ReviewDto reviewDto=null;
+		reviewMapper.toEntity(reviewDto);
 	}
 
-	private void initReviewDto() {
-		reviewDto = new ReviewDto();
+	private ReviewDto initReviewDto() {
+		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setId(2L);
 		reviewDto.setDate(dateForDto);
 		reviewDto.setDescription("Description of the review");
 		reviewDto.setRecipeDto(recipeDto);
 		reviewDto.setStars(Stars.FOUR);
+		return reviewDto;
 	}
 
-	private void initReview() {
-		review = new Review();
+	private Review initReview() {
+		Review review = new Review();
 		review.setId(1L);
 		review.setDate(dateForEntity);
 		review.setDescription("Description of the review");
 		review.setRecipe(recipe);
 		review.setStars(Stars.FIVE);
+		return review;
 	}
 
 }

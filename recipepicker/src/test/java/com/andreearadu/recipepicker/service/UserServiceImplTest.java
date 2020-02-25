@@ -5,18 +5,14 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 import java.util.HashSet;
-
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import com.andreearadu.recipepicker.dto.UserDto;
 import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 import com.andreearadu.recipepicker.mapper.UserMapper;
 import com.andreearadu.recipepicker.model.User;
@@ -30,7 +26,6 @@ public class UserServiceImplTest {
 	@MockBean
 	private UserRepository repository;
 
-	@InjectMocks
 	private UserServiceImpl service;
 
 	@Before
@@ -46,19 +41,17 @@ public class UserServiceImplTest {
 	@Test
 	public void getAllUsersTest() {
 
-		Collection<UserDto> setUsersDto = new HashSet<UserDto>();
-		UserDto userOne = initUserDto(1L, "aaa@yahoo.com");
-		UserDto userTwo = initUserDto(2L, "bbb@yahoo.com");
-		UserDto userThree = initUserDto(3L, "ccc@yahoo.com");
-		setUsersDto.add(userOne);
-		setUsersDto.add(userTwo);
-		setUsersDto.add(userThree);
+		Collection<User> setUsers = new HashSet<User>();
+		User userOne = initUser(1L, "aaa@yahoo.com");
+		User userTwo = initUser(2L, "bbb@yahoo.com");
+		User userThree = initUser(3L, "ccc@yahoo.com");
+		setUsers.add(userOne);
+		setUsers.add(userTwo);
+		setUsers.add(userThree);
 
-		when(repository.findAll()).thenReturn(setUsersDto.stream().map(mapper::toEntity).collect(Collectors.toSet()));
+		when(repository.findAll()).thenReturn(setUsers);
 
-		Collection<UserDto> expectedUsersSet = service.getAllUsers();
-
-		assertEquals(3, expectedUsersSet.size());
+		assertEquals(3, service.getAllUsers().size());
 		verify(repository, times(1)).findAll();
 
 	}
@@ -72,17 +65,24 @@ public class UserServiceImplTest {
 
 	}
 
+	@Test(expected = CustomIllegalParameterException.class)
+	public void getUserByInexistentEmail() {
+
+		String email = "bbb@yahoo.com";
+		when(repository.findByEmail(email)).thenThrow(CustomIllegalParameterException.class);
+		service.getUserByEmail(email);
+
+	}
+
 	@Test
 	public void getUserByEmailTest() {
 
 		String email = "aaa@yahoo.com";
-		UserDto user = initUserDto(1L, email);
+		User user = initUser(1L, email);
 
-		when(repository.findByEmail(email)).thenReturn(mapper.toEntity(user));
+		when(repository.findByEmail(email)).thenReturn(Optional.of(user));
 
-		UserDto expectedUser = service.getUserByEmail(email);
-
-		assertEquals(1L, expectedUser.getId());
+		assertEquals(1L, service.getUserByEmail(email).getId());
 
 	}
 
@@ -97,23 +97,20 @@ public class UserServiceImplTest {
 	@Test
 	public void addUserTest() {
 
-		UserDto userDto = initUserDto(1L, "bbb@yahoo.com");
+		User user = initUser(1L, "bbb@yahoo.com");
 
-		when(repository.save(any(User.class))).thenReturn(mapper.toEntity(userDto));
+		when(repository.save(any(User.class))).thenReturn(user);
 
-		UserDto userAdded = service.addUser(userDto);
-
-		assertEquals("bbb@yahoo.com", userAdded.getEmail());
-		assertEquals(1L, userAdded.getId());
+		assertEquals("bbb@yahoo.com", service.addUser(mapper.toDto(user)).getEmail());
+		assertEquals(1L, service.addUser(mapper.toDto(user)).getId());
 
 	}
 
-	private UserDto initUserDto(Long id, String email) {
-
-		UserDto userDto = new UserDto();
-		userDto.setEmail(email);
-		userDto.setId(id);
-		return userDto;
+	private User initUser(Long id, String email) {
+		User user = new User();
+		user.setEmail(email);
+		user.setId(id);
+		return user;
 	}
 
 }

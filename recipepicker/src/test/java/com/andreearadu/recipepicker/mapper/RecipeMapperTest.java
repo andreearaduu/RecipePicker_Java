@@ -12,8 +12,6 @@ import com.andreearadu.recipepicker.model.Recipe;
 
 public class RecipeMapperTest {
 
-	Recipe recipe;
-	RecipeDto recipeDto;
 	RecipeMapper recipeMapper;
 
 	@Before
@@ -24,9 +22,9 @@ public class RecipeMapperTest {
 	@Test
 	public void testMappToDto() {
 
-		initRecipe();
+		Recipe recipe = initRecipe();
 		RecipeDto recipeDto = recipeMapper.toDto(recipe);
-		
+
 		assertThat(recipeDto.getId()).isEqualTo(recipe.getId());
 		assertThat(recipeDto.getName()).isEqualTo(recipe.getName());
 		assertThat(recipeDto.getCategory()).isEqualTo(recipe.getCategory());
@@ -37,10 +35,10 @@ public class RecipeMapperTest {
 
 	@Test
 	public void testMappToEntity() {
-		
-		initRecipeDto();
+
+		RecipeDto recipeDto = initRecipeDto();
 		Recipe recipe = recipeMapper.toEntity(recipeDto);
-		
+
 		assertThat(recipe.getId()).isEqualTo(recipeDto.getId());
 		assertThat(recipe.getName()).isEqualTo(recipeDto.getName());
 		assertThat(recipe.getCategory()).isEqualTo(recipeDto.getCategory());
@@ -50,35 +48,37 @@ public class RecipeMapperTest {
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullIngredientToDto() {
-		recipeMapper = new RecipeMapper();
-		recipeDto = recipeMapper.toDto(recipe);
+		Recipe recipe = null;
+		recipeMapper.toDto(recipe);
 
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullIngredientToEntity() {
-		recipeMapper = new RecipeMapper();
-		recipe = recipeMapper.toEntity(recipeDto);
+		RecipeDto recipeDto = null;
+		recipeMapper.toEntity(recipeDto);
 
 	}
 
-	private void initRecipeDto() {
-		recipeDto=new RecipeDto();
+	private RecipeDto initRecipeDto() {
+
+		RecipeDto recipeDto = new RecipeDto();
 		recipeDto.setId(2L);
 		recipeDto.setName("Pasta");
 		recipeDto.setCategory(Category.PASTE);
 		recipeDto.setCookingTimeInMinutes(20);
 		recipeDto.setDescription("description of the recepie");
+		return recipeDto;
 
 	}
 
-	private void initRecipe() {
-		recipe = new Recipe();
+	private Recipe initRecipe() {
+		Recipe recipe = new Recipe();
 		recipe.setId(1L);
 		recipe.setName("Bread");
 		recipe.setCategory(Category.BREAD);
 		recipe.setCookingTimeInMinutes(50);
 		recipe.setDescription("description of the recepie");
-
+		return recipe;
 	}
 }

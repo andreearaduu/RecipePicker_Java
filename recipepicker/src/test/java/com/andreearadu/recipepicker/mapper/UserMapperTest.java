@@ -12,8 +12,6 @@ import com.andreearadu.recipepicker.model.User;
 
 public class UserMapperTest {
 
-	User user;
-	UserDto userDto;
 	UserMapper userMapper;
 
 	@Before
@@ -23,7 +21,7 @@ public class UserMapperTest {
 
 	@Test
 	public void testMappToDto() {
-		initUser();
+		User user = initUser();
 		UserDto userDto = userMapper.toDto(user);
 
 		assertThat(userDto.getId()).isEqualTo(user.getId());
@@ -34,7 +32,7 @@ public class UserMapperTest {
 	@Test
 	public void testMappToEntity() {
 
-		initUserDto();
+		UserDto userDto = initUserDto();
 		User user = userMapper.toEntity(userDto);
 
 		assertThat(user.getId()).isEqualTo(userDto.getId());
@@ -44,29 +42,30 @@ public class UserMapperTest {
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullUserToDto() {
-		userMapper = new UserMapper();
-		userDto = userMapper.toDto(user);
+		User user = null;
+		userMapper.toDto(user);
 
 	}
 
 	@Test(expected = CustomIllegalParameterException.class)
 	public void testNullUserToEntity() {
-		userMapper = new UserMapper();
-		user = userMapper.toEntity(userDto);
+		UserDto userDto = null;
+		userMapper.toEntity(userDto);
 
 	}
 
-	private void initUser() {
-		user = new User();
+	private User initUser() {
+		User user = new User();
 		user.setId(1L);
 		user.setEmail("andreea.radu@yahoo.com");
+		return user;
 
 	}
 
-	private void initUserDto() {
-		userDto = new UserDto();
+	private UserDto initUserDto() {
+		UserDto userDto = new UserDto();
 		userDto.setId(1L);
 		userDto.setEmail("andreea.radu@gmail.com");
-
+		return userDto;
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.ReviewDto;
 import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 
@@ -23,7 +24,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 	@Autowired
 	public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper) {
-		super();
+
 		this.repository = reviewRepository;
 		this.reviewMapper = reviewMapper;
 	}
@@ -35,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Collection<ReviewDto> getReviewsByRecipe(String name) {
+	public Collection<ReviewDto> getReviewsForRecipe(String name) {
 		if (name == null) {
 			throw new CustomIllegalParameterException("Name parameter in null");
 		}
@@ -55,12 +56,15 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public ReviewDto addReview(ReviewDto reviewDto) {
+	public ReviewDto addReview(ReviewDto reviewDto, RecipeDto recipeDto) {
 
 		if (reviewDto == null) {
+			throw new CustomIllegalParameterException("There is no review to add");
+		}
+		if(recipeDto==null) {
 			throw new CustomIllegalParameterException("Recipe parameter in null");
 		}
-
+		reviewDto.setRecipeDto(recipeDto);
 		return reviewMapper.toDto(repository.save(reviewMapper.toEntity(reviewDto)));
 	}
 
