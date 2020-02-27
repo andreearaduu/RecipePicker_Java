@@ -12,6 +12,11 @@ import com.andreearadu.recipepicker.model.Recipe;
 
 public class RecipeMapperTest {
 
+<<<<<<< HEAD
+=======
+	Recipe recipe;
+	RecipeDto recipeDto;
+>>>>>>> 9fae0be1821fe78c21230e7c5ef17247b46c6f04
 	RecipeMapper recipeMapper;
 
 	@Before
