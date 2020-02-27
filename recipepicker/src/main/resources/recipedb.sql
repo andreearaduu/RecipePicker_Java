@@ -1,0 +1,1 @@
+SELECT * FROM recipedb.user_favoriterecipes;
