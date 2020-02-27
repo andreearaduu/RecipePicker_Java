@@ -1,24 +1,20 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.List;
+import java.util.Collection;
 
+import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.model.Category;
-import com.andreearadu.recipepicker.model.Ingredient;
-import com.andreearadu.recipepicker.model.Recipe;
 
 public interface RecipeService {
 
-	public List<Recipe> getAllRecipes();
+	Collection<RecipeDto> getAllRecipes();
 
-	public Recipe getRecipeById(Long id);
+	Collection<RecipeDto> getRecipeByNameLike(String name);
 
-	public List<Recipe> getRecipeByName(String name);
+	Collection<RecipeDto> getRecipeByCatgory(Category category);
 
-	public List<Recipe> getRecipeByCatgory(Category category);
+	Collection<RecipeDto> getRecipeByCookingTimeLessThan(int cookingTime);
 
-	public List<Recipe> getRecipeByListIngredient(List<Ingredient> ingredients);
+	RecipeDto addRecipe(RecipeDto recipeDTO);
 
-	public Recipe saveRecipe(Recipe recipe);
-
-	public void deleteRecipe(Recipe recipe);
 }

@@ -59,6 +59,22 @@ public class Review {
 		return recipe;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public LocalDate getDate() {
+		return date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
 	}

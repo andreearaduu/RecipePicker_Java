@@ -1,42 +1,62 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.andreearadu.recipepicker.model.Ingredient;
+import com.andreearadu.recipepicker.dto.IngredientDto;
+import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
+import com.andreearadu.recipepicker.mapper.IngredientMapper;
+
 import com.andreearadu.recipepicker.repository.IngredientRepository;
 
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
+	private final IngredientRepository repository;
+	private final IngredientMapper ingredientMapper;
+
 	@Autowired
-	private IngredientRepository ingredientRepository;
+	public IngredientServiceImpl(IngredientRepository ingredientRepository, IngredientMapper ingredientMapper) {
 
-	@Override
-	public List<Ingredient> getAllIngredients() {
-		return (List<Ingredient>) ingredientRepository.findAll();
+		this.repository = ingredientRepository;
+		this.ingredientMapper = ingredientMapper;
 	}
 
 	@Override
-	public Ingredient getIngredientById(Long id) {
-		return ingredientRepository.findById(id).get();
+	public Collection<IngredientDto> getAllIngredients() {
+		return repository.findAll().stream().map(ingredientMapper::toDto).collect(Collectors.toSet());
 	}
 
 	@Override
-	public List<Ingredient> getIngredientByName(String name) {
-		return ingredientRepository.findIngredientByName(name);
+	public Collection<IngredientDto> getIngredients(String name) {
+		if (name == null) {
+			throw new CustomIllegalParameterException("Name parameter is null");
+		}
+		return repository.findIngredientByNameLike(name).stream().map(ingredientMapper::toDto)
+				.collect(Collectors.toSet());
+
 	}
 
 	@Override
-	public Ingredient saveIngredient(Ingredient ingredient) {
-		return ingredientRepository.save(ingredient);
+	public IngredientDto addIngredient(IngredientDto ingredientDto) {
+		if (ingredientDto == null) {
+			throw new CustomIllegalParameterException("Ingredient parameter is null");
+		}
+
+		return ingredientMapper.toDto(repository.save(ingredientMapper.toEntity(ingredientDto)));
 	}
 
 	@Override
-	public void deleteIngredient(Ingredient ingredient) {
-		ingredientRepository.delete(ingredient);
+	public boolean removeIngredient(IngredientDto ingredientDto) {
+
+		if (ingredientDto == null) {
+			throw new CustomIllegalParameterException("Ingredient parameter is null");
+		}
+		repository.delete(ingredientMapper.toEntity(ingredientDto));
+		return true;
 	}
 
 }

@@ -1,14 +1,18 @@
 package com.andreearadu.recipepicker.repository;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
+import com.andreearadu.recipepicker.model.Stars;
 
 public interface ReviewRepository extends CrudRepository<Review, Long> {
 
-	public List<Review> findByRecipe(Recipe recipe);
+	Collection<Review> findByRecipeName(String name);
+
+	Collection<Review> findByStars(Stars stars);
+
+	Collection<Review> findAll();
 
 }

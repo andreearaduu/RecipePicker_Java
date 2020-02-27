@@ -1,6 +1,6 @@
 package com.andreearadu.recipepicker.repository;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,10 +10,14 @@ import com.andreearadu.recipepicker.model.Recipe;
 
 public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
-	public List<Recipe> findByName(String name);
+	Collection<Recipe> findByNameLike(String name);
 
-	public List<Recipe> findByCategory(Category category);
+	Collection<Recipe> findByCategory(Category category);
 
-	public List<Recipe> findByIngredientsIn(List<Ingredient> ingredients);
+	Collection<Recipe> findByIngredientsIn(Collection<Ingredient> ingredients);
+	
+	Collection<Recipe> findRecipeByCookingTimeInMinutesLessThan(int cookingTime);
+
+	Collection<Recipe> findAll();
 
 }

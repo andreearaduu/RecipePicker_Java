@@ -1,5 +1,5 @@
 package com.andreearadu.recipepicker.model;
 
 public enum Category {
-	 BREAKFAST, LUNCH, DINNER, DESSERT
+	APPETIZER, BREAD, CAKES, SOUP, MEAT, FISH, SALAD, PASTE, TRADITIONALRECIPES, VARIOUS
 }

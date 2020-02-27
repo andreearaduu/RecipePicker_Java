@@ -1,18 +1,18 @@
 package com.andreearadu.recipepicker.dto;
 
-import java.util.List;
+import java.util.Collection;
 
-public class IngredientDTO {
+public class IngredientDto {
 
 	private Long id;
 	private String name;
-	private List<RecipeDTO> recipes;
+	private Collection<RecipeDto> recipes;
 
-	public List<RecipeDTO> getRecipes() {
+	public Collection<RecipeDto> getRecipes() {
 		return recipes;
 	}
 
-	public void setRecipes(List<RecipeDTO> recipes) {
+	public void setRecipes(Collection<RecipeDto> recipes) {
 		this.recipes = recipes;
 	}
 

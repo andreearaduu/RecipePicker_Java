@@ -1,19 +1,18 @@
 package com.andreearadu.recipepicker.service;
 
-import java.util.List;
 
-import com.andreearadu.recipepicker.model.Ingredient;
+import java.util.Collection;
+
+import com.andreearadu.recipepicker.dto.IngredientDto;
 
 public interface IngredientService {
 
-	public List<Ingredient> getAllIngredients();
+	Collection<IngredientDto> getAllIngredients();
 
-	public Ingredient getIngredientById(Long id);
+	Collection<IngredientDto> getIngredients(String name);
 
-	public List<Ingredient> getIngredientByName(String name);
+	IngredientDto addIngredient(IngredientDto ingredientDto);
 
-	public Ingredient saveIngredient(Ingredient ingredient);
-
-	public void deleteIngredient(Ingredient ingredient);
+	boolean removeIngredient(IngredientDto ingredientDto);
 
 }
