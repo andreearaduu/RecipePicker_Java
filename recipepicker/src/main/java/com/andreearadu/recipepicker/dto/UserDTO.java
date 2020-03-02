@@ -6,9 +6,10 @@ public class UserDto {
 
 	private Long id;
 	private String email;
+	private String name;
+	private Collection<RecipeDto> ownRecipes;
 	private Collection<RecipeDto> favoriteRecipes;
-	private Collection<RecipeDto> cookedRecipes ;
-	
+	private Collection<RecipeDto> cookedRecipes;
 
 	public Long getId() {
 		return id;
@@ -26,6 +27,14 @@ public class UserDto {
 		this.email = email;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public Collection<RecipeDto> getFavoriteRecipes() {
 		return favoriteRecipes;
 	}
@@ -40,6 +49,18 @@ public class UserDto {
 
 	public void setCookedRecipes(Collection<RecipeDto> cookedRecipes) {
 		this.cookedRecipes = cookedRecipes;
+	}
+
+	public Collection<RecipeDto> getOwnRecipes() {
+		return ownRecipes;
+	}
+
+	public void setOwnRecipes(Collection<RecipeDto> ownRecipes) {
+		this.ownRecipes = ownRecipes;
+	}
+
+	public boolean addOwnRecipe(RecipeDto recipeDto) {
+		return ownRecipes.add(recipeDto);
 	}
 
 	public boolean addToFavoriteRecipes(RecipeDto recipeDto) {

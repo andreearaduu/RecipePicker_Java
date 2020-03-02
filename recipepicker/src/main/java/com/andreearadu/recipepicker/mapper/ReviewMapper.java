@@ -3,7 +3,6 @@ package com.andreearadu.recipepicker.mapper;
 import org.springframework.stereotype.Component;
 
 import com.andreearadu.recipepicker.dto.ReviewDto;
-import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
 import com.andreearadu.recipepicker.model.Review;
 
 @Component
@@ -13,9 +12,8 @@ public class ReviewMapper {
 
 	public ReviewDto toDto(Review review) {
 		if (review == null) {
-			throw new CustomIllegalParameterException("Review paramater is null");
+			throw new IllegalArgumentException("Review paramater is null");
 		}
-
 		ReviewDto reviewDto = new ReviewDto();
 		reviewDto.setId(review.getId());
 		reviewDto.setDescription(review.getDescription());
@@ -27,7 +25,7 @@ public class ReviewMapper {
 
 	public Review toEntity(ReviewDto reviewDto) {
 		if (reviewDto == null) {
-			throw new CustomIllegalParameterException("Review paramater is null");
+			throw new IllegalArgumentException("Review paramater is null");
 		}
 		Review review = new Review();
 		review.setId(reviewDto.getId());
