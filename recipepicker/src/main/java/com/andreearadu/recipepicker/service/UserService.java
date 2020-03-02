@@ -7,14 +7,14 @@ import com.andreearadu.recipepicker.dto.UserDto;
 
 public interface UserService {
 
-	Collection<UserDto> getAllUsers();
+	UserDto register(UserDto userDTO);
 
-	UserDto getUserByEmail(String email);
-
-	UserDto addUser(UserDto userDTO);
+	Collection<RecipeDto> getAllRecipesOwnByUser(UserDto userDto);
 
 	boolean addFavoriteRecipe(RecipeDto recipeDto, UserDto userDto);
-	
+
 	boolean addCookedRecipe(RecipeDto recipeDto, UserDto userDto);
+
+	boolean addOwnRecipe(RecipeDto recipeDto, UserDto userDto);
 
 }

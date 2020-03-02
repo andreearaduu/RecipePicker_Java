@@ -8,8 +8,6 @@ import com.andreearadu.recipepicker.model.Ingredient;
 
 public interface IngredientRepository extends CrudRepository<Ingredient, Long> {
 
-	Collection<Ingredient> findIngredientByNameLike(String name);
-
-	Collection<Ingredient> findAll();
-
+	Collection<Ingredient> findByNameLike(String ingredientName);
+   
 }
