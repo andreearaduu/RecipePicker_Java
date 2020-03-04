@@ -6,17 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
-import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
+import com.andreearadu.recipepicker.exceptions.IllegalRecipeParameterException;
 import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
 
 public class RecipeMapperTest {
 
-<<<<<<< HEAD
-=======
-	Recipe recipe;
-	RecipeDto recipeDto;
->>>>>>> 9fae0be1821fe78c21230e7c5ef17247b46c6f04
 	RecipeMapper recipeMapper;
 
 	@Before
@@ -51,15 +46,15 @@ public class RecipeMapperTest {
 		assertThat(recipe.getDescription()).isEqualTo(recipeDto.getDescription());
 	}
 
-	@Test(expected = CustomIllegalParameterException.class)
-	public void testNullIngredientToDto() {
+	@Test(expected = IllegalRecipeParameterException.class)
+	public void testNullRecipeToDto() {
 		Recipe recipe = null;
 		recipeMapper.toDto(recipe);
 
 	}
 
-	@Test(expected = CustomIllegalParameterException.class)
-	public void testNullIngredientToEntity() {
+	@Test(expected = IllegalRecipeParameterException.class)
+	public void testNullRecipeToEntity() {
 		RecipeDto recipeDto = null;
 		recipeMapper.toEntity(recipeDto);
 
