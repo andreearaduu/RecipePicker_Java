@@ -10,8 +10,7 @@ import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.ReviewDto;
-import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
-
+import com.andreearadu.recipepicker.exceptions.IllegalReviewParameterException;
 import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
 import com.andreearadu.recipepicker.model.Stars;
@@ -59,15 +58,15 @@ public class ReviewMapperTest {
 		assertThat(review.getStars()).isEqualTo(reviewDto.getStars());
 	}
 
-	@Test(expected = CustomIllegalParameterException.class)
+	@Test(expected = IllegalReviewParameterException.class)
 	public void testNullReviewToDto() {
-		Review review=null;
+		Review review = null;
 		reviewMapper.toDto(review);
 	}
 
-	@Test(expected = CustomIllegalParameterException.class)
+	@Test(expected = IllegalReviewParameterException.class)
 	public void testNullReviewToEntity() {
-		ReviewDto reviewDto=null;
+		ReviewDto reviewDto = null;
 		reviewMapper.toEntity(reviewDto);
 	}
 

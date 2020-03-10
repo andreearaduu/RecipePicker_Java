@@ -14,9 +14,17 @@ public class RecipeDto {
 	private Category category;
 	private Collection<ReviewDto> reviews;
 	private Collection<IngredientDto> ingredients;
-	
+
 	private Collection<UserDto> userFavoriteRecepies;
 	private Collection<UserDto> userCookedRecepies;
+
+	public boolean addIngredient(IngredientDto ingredientDto) {
+		return ingredients.add(ingredientDto);
+	}
+
+	public boolean addReview(ReviewDto reviewDto) {
+		return reviews.add(reviewDto);
+	}
 
 	public Collection<ReviewDto> getReviews() {
 		return reviews;

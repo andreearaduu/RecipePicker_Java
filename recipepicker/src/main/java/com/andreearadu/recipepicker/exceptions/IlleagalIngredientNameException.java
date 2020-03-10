@@ -1,19 +1,16 @@
 package com.andreearadu.recipepicker.exceptions;
 
-public class CustomIllegalParameterException extends RuntimeException{
+public class IlleagalIngredientNameException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	String message;
 
-	public CustomIllegalParameterException(String message) {
+	public IlleagalIngredientNameException(String message) {
 		super();
 		this.message = message;
 	}
-	
-	
 
 }

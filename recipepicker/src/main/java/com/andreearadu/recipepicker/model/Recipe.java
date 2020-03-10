@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -44,6 +45,9 @@ public class Recipe {
 	@ManyToMany
 	private Collection<Ingredient> ingredients;
 
+	@ManyToOne
+	private User user;
+	
 	@ManyToMany
 	private Collection<User> userFavoriteRecepies;
 

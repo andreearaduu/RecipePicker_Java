@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -28,12 +29,22 @@ public class User {
 	@NotNull
 	private String email;
 
+	@Column(name = "name", unique = true, nullable = false)
+	@NotNull
+	private String name;
 	
+	@OneToMany
+	private Collection<Recipe> ownRecipes;
+
 	@ManyToMany
 	private Collection<Recipe> favoriteRecipes;
 
 	@ManyToMany
 	private Collection<Recipe> cookedRecipes;
+
+	public void addOwnRecipes(Recipe recipe) {
+		ownRecipes.add(recipe);
+	}
 
 	public void addToFavoriteRecipes(Recipe recipe) {
 		favoriteRecipes.add(recipe);

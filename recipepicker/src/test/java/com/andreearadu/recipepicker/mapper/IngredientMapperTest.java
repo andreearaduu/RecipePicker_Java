@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.IngredientDto;
-import com.andreearadu.recipepicker.exceptions.CustomIllegalParameterException;
+import com.andreearadu.recipepicker.exceptions.InvalidIngredientParameterException;
 import com.andreearadu.recipepicker.model.Ingredient;
 
 public class IngredientMapperTest {
@@ -37,7 +37,7 @@ public class IngredientMapperTest {
 
 	}
 
-	@Test(expected = CustomIllegalParameterException.class)
+	@Test(expected = InvalidIngredientParameterException.class)
 	public void testNullIngredient() {
 
 		Ingredient ingredient = null;
