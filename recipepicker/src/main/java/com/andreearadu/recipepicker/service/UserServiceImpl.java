@@ -1,13 +1,11 @@
 package com.andreearadu.recipepicker.service;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.UserDto;
-import com.andreearadu.recipepicker.exceptions.IllegalRecipeParameterException;
 import com.andreearadu.recipepicker.exceptions.IllegalUserParameterException;
 import com.andreearadu.recipepicker.mapper.UserMapper;
 
@@ -27,53 +25,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean addFavoriteRecipe(RecipeDto recipeDto, UserDto userDto) {
-		if (recipeDto == null) {
-			throw new IllegalRecipeParameterException("Recipe parameter is null");
-		}
-		if (userDto == null) {
-			throw new IllegalUserParameterException("User parameter is null");
-		}
-		return userDto.addToFavoriteRecipes(recipeDto);
-
+	public Collection<UserDto> getAll() {
+		return repository.findAll().stream().map(userMapper::toDto).collect(Collectors.toList());
 	}
 
 	@Override
-	public boolean addCookedRecipe(RecipeDto recipeDto, UserDto userDto) {
-		if (recipeDto == null) {
-			throw new IllegalRecipeParameterException("Recipe parameter is null");
-		}
-		if (userDto == null) {
-			throw new IllegalUserParameterException("User parameter is null");
-		}
-		return userDto.addToCookedRecipes(recipeDto);
-
+	public UserDto getUserById(long id) {
+		return userMapper.toDto(repository.findById(id).orElseThrow(() -> new IllegalUserParameterException("User parameter is null")));
 	}
 
-	@Override
-	public boolean addOwnRecipe(RecipeDto recipeDto, UserDto userDto) {
-		if (recipeDto == null) {
-			throw new IllegalRecipeParameterException("Recipe parameter is null");
-		}
-		if (userDto == null) {
-			throw new IllegalUserParameterException("User parameter is null");
-		}
-		return userDto.addOwnRecipe(recipeDto);
-	}
-
-	@Override
-	public UserDto register(UserDto userDto) {
-		if (userDto == null) {
-			throw new IllegalUserParameterException("User parameter is null");
-		}
-		return userMapper.toDto(repository.save(userMapper.toEntity(userDto)));
-	}
-
-	@Override
-	public Collection<RecipeDto> getAllRecipesOwnByUser(UserDto userDto) {
-		if (userDto == null) {
-			throw new IllegalUserParameterException("User parameter is null");
-		}
-		return userDto.getOwnRecipes();
-	}
 }
