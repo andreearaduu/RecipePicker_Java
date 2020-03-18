@@ -8,8 +8,6 @@ import com.andreearadu.recipepicker.model.Review;
 @Component
 public class ReviewMapper {
 
-	private RecipeMapper recipeMapper = new RecipeMapper();
-
 	public ReviewDto toDto(Review review) {
 		if (review == null) {
 			throw new IllegalArgumentException("Review paramater is null");
@@ -19,7 +17,8 @@ public class ReviewMapper {
 		reviewDto.setDescription(review.getDescription());
 		reviewDto.setStars(review.getStars());
 		reviewDto.setDate(review.getDate());
-		reviewDto.setRecipeDto(recipeMapper.toDto(review.getRecipe()));
+		reviewDto.setIdRecipe(review.getRecipe().getId());
+		reviewDto.setIdUser(review.getUser().getId());
 		return reviewDto;
 	}
 
@@ -32,7 +31,8 @@ public class ReviewMapper {
 		review.setDate(reviewDto.getDate());
 		review.setDescription(reviewDto.getDescription());
 		review.setStars(reviewDto.getStars());
-		review.setRecipe(recipeMapper.toEntity(reviewDto.getRecipeDto()));
+		review.getRecipe().setId(reviewDto.getIdRecipe());
+		review.getUser().setId(reviewDto.getIdUser());
 		return review;
 
 	}

@@ -38,6 +38,9 @@ public class Review {
 
 	@ManyToOne
 	private Recipe recipe;
+	
+	@ManyToOne
+	private User user;
 
 	public String getDescription() {
 		return description;
@@ -77,6 +80,14 @@ public class Review {
 
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
