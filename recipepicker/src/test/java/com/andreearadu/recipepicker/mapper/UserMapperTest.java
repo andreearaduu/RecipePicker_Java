@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.UserDto;
-import com.andreearadu.recipepicker.exceptions.IllegalUserParameterException;
 import com.andreearadu.recipepicker.model.User;
 
 public class UserMapperTest {
@@ -39,17 +38,15 @@ public class UserMapperTest {
 
 	}
 
-	@Test(expected = IllegalUserParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullUserToDto() {
-		User user = null;
-		userMapper.toDto(user);
+		userMapper.toDto(null);
 
 	}
 
-	@Test(expected = IllegalUserParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullUserToEntity() {
-		UserDto userDto = null;
-		userMapper.toEntity(userDto);
+		userMapper.toEntity(null);
 
 	}
 

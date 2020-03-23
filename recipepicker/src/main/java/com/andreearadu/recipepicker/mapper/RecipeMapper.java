@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.model.Recipe;
+import com.andreearadu.recipepicker.model.User;
 
 @Component
 public class RecipeMapper {
@@ -32,7 +33,9 @@ public class RecipeMapper {
 		recipe.setCategory(recipeDto.getCategory());
 		recipe.setCookingTimeInMinutes(recipeDto.getCookingTimeInMinutes());
 		recipe.setDescription(recipeDto.getDescription());
-		recipe.getUser().setId(recipeDto.getId());
+		User user=new User();
+		user.setId(recipeDto.getUserId());
+		recipe.setUser(user);
 		return recipe;
 	}
 

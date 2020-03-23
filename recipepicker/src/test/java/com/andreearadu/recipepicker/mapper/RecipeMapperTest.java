@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.dto.RecipeDto;
-import com.andreearadu.recipepicker.exceptions.IllegalRecipeParameterException;
 import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
+import com.andreearadu.recipepicker.model.User;
 
 public class RecipeMapperTest {
 
@@ -30,7 +30,7 @@ public class RecipeMapperTest {
 		assertThat(recipeDto.getCategory()).isEqualTo(recipe.getCategory());
 		assertThat(recipeDto.getCookingTimeInMinutes()).isEqualTo(recipe.getCookingTimeInMinutes());
 		assertThat(recipeDto.getDescription()).isEqualTo(recipe.getDescription());
-
+        assertThat(recipeDto.getUserId()).isEqualTo(recipe.getUser().getId());
 	}
 
 	@Test
@@ -44,41 +44,42 @@ public class RecipeMapperTest {
 		assertThat(recipe.getCategory()).isEqualTo(recipeDto.getCategory());
 		assertThat(recipe.getCookingTimeInMinutes()).isEqualTo(recipeDto.getCookingTimeInMinutes());
 		assertThat(recipe.getDescription()).isEqualTo(recipeDto.getDescription());
+		assertThat(recipe.getUser().getId()).isEqualTo(recipeDto.getUserId());
 	}
 
-	@Test(expected = IllegalRecipeParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullRecipeToDto() {
-		Recipe recipe = null;
-		recipeMapper.toDto(recipe);
+		recipeMapper.toDto(null);
 
 	}
 
-	@Test(expected = IllegalRecipeParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullRecipeToEntity() {
-		RecipeDto recipeDto = null;
-		recipeMapper.toEntity(recipeDto);
+		recipeMapper.toEntity(null);
 
 	}
 
 	private RecipeDto initRecipeDto() {
 
 		RecipeDto recipeDto = new RecipeDto();
-		recipeDto.setId(2L);
 		recipeDto.setName("Pasta");
 		recipeDto.setCategory(Category.PASTE);
 		recipeDto.setCookingTimeInMinutes(20);
-		recipeDto.setDescription("description of the recepie");
+		recipeDto.setDescription("description of the recipe");
+		recipeDto.setUserId(1L);
 		return recipeDto;
 
 	}
 
 	private Recipe initRecipe() {
 		Recipe recipe = new Recipe();
-		recipe.setId(1L);
+		User user=new User();
+		user.setId(2L);
 		recipe.setName("Bread");
 		recipe.setCategory(Category.BREAD);
 		recipe.setCookingTimeInMinutes(50);
-		recipe.setDescription("description of the recepie");
+		recipe.setDescription("description of the recipe");
+		recipe.setUser(user);
 		return recipe;
 	}
 }
