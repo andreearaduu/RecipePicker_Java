@@ -1,8 +1,5 @@
 package com.andreearadu.recipepicker.dto;
 
-import java.util.Collection;
-import java.util.List;
-
 import com.andreearadu.recipepicker.model.Category;
 
 public class RecipeDto {
@@ -12,52 +9,8 @@ public class RecipeDto {
 	private String description;
 	private int cookingTimeInMinutes;
 	private Category category;
-	private Collection<ReviewDto> reviews;
-	private Collection<IngredientDto> ingredients;
-
-	private Collection<UserDto> userFavoriteRecepies;
-	private Collection<UserDto> userCookedRecepies;
-
-	public boolean addIngredient(IngredientDto ingredientDto) {
-		return ingredients.add(ingredientDto);
-	}
-
-	public boolean addReview(ReviewDto reviewDto) {
-		return reviews.add(reviewDto);
-	}
-
-	public Collection<ReviewDto> getReviews() {
-		return reviews;
-	}
-
-	public void setReviews(Collection<ReviewDto> reviews) {
-		this.reviews = reviews;
-	}
-
-	public Collection<IngredientDto> getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(List<IngredientDto> ingredients) {
-		this.ingredients = ingredients;
-	}
-
-	public Collection<UserDto> getUserFavoriteRecepies() {
-		return userFavoriteRecepies;
-	}
-
-	public void setUserFavoriteRecepies(List<UserDto> userFavoriteRecepies) {
-		this.userFavoriteRecepies = userFavoriteRecepies;
-	}
-
-	public Collection<UserDto> getUserCookedRecepies() {
-		return userCookedRecepies;
-	}
-
-	public void setUserCookedRecepies(List<UserDto> userCookedRecepies) {
-		this.userCookedRecepies = userCookedRecepies;
-	}
-
+    private long userId;
+    
 	public Long getId() {
 		return id;
 	}
@@ -96,6 +49,14 @@ public class RecipeDto {
 
 	public void setCookingTimeInMinutes(int cookingTimeInMinutes) {
 		this.cookingTimeInMinutes = cookingTimeInMinutes;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 }

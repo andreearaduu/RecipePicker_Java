@@ -8,29 +8,20 @@ import java.time.ZoneId;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.andreearadu.recipepicker.dto.RecipeDto;
+
 import com.andreearadu.recipepicker.dto.ReviewDto;
-import com.andreearadu.recipepicker.exceptions.IllegalReviewParameterException;
 import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
 import com.andreearadu.recipepicker.model.Stars;
+import com.andreearadu.recipepicker.model.User;
 
 public class ReviewMapperTest {
 
 	ReviewMapper reviewMapper;
-	Recipe recipe;
-	RecipeDto recipeDto;
-	LocalDate dateForEntity;
-	LocalDate dateForDto;
-
+	
 	@Before
 	public void setUp() {
-
 		this.reviewMapper = new ReviewMapper();
-		this.recipe = new Recipe();
-		this.recipeDto = new RecipeDto();
-		this.dateForEntity = LocalDate.now();
-		this.dateForDto = LocalDate.now(ZoneId.of("Asia/Kolkata"));
 	}
 
 	@Test
@@ -40,8 +31,9 @@ public class ReviewMapperTest {
 		assertThat(reviewDto.getId()).isEqualTo(review.getId());
 		assertThat(reviewDto.getDate()).isEqualTo(review.getDate());
 		assertThat(reviewDto.getDescription()).isEqualTo(review.getDescription());
-		assertThat(reviewDto.getRecipeDto().getId()).isEqualTo(review.getRecipe().getId());
 		assertThat(reviewDto.getStars()).isEqualTo(review.getStars());
+		assertThat(reviewDto.getIdRecipe()).isEqualTo(review.getRecipe().getId());
+		assertThat(reviewDto.getIdUser()).isEqualTo(review.getUser().getId());
 
 	}
 
@@ -54,39 +46,46 @@ public class ReviewMapperTest {
 		assertThat(review.getId()).isEqualTo(reviewDto.getId());
 		assertThat(review.getDate().toString()).isEqualTo(reviewDto.getDate().toString());
 		assertThat(review.getDescription()).isEqualTo(reviewDto.getDescription());
-		assertThat(review.getRecipe().getId()).isEqualTo(reviewDto.getRecipeDto().getId());
 		assertThat(review.getStars()).isEqualTo(reviewDto.getStars());
+		assertThat(review.getUser().getId()).isEqualTo(reviewDto.getIdUser());
+		assertThat(review.getRecipe().getId()).isEqualTo(reviewDto.getIdRecipe());
 	}
 
-	@Test(expected = IllegalReviewParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullReviewToDto() {
-		Review review = null;
-		reviewMapper.toDto(review);
+		reviewMapper.toDto(null);
 	}
 
-	@Test(expected = IllegalReviewParameterException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullReviewToEntity() {
-		ReviewDto reviewDto = null;
-		reviewMapper.toEntity(reviewDto);
+		reviewMapper.toEntity(null);
 	}
 
 	private ReviewDto initReviewDto() {
 		ReviewDto reviewDto = new ReviewDto();
-		reviewDto.setId(2L);
+		LocalDate dateForDto = LocalDate.now(ZoneId.of("Asia/Kolkata"));
+		
 		reviewDto.setDate(dateForDto);
 		reviewDto.setDescription("Description of the review");
-		reviewDto.setRecipeDto(recipeDto);
+		reviewDto.setIdRecipe(1L);
 		reviewDto.setStars(Stars.FOUR);
+		reviewDto.setIdUser(1L);
 		return reviewDto;
 	}
 
 	private Review initReview() {
 		Review review = new Review();
-		review.setId(1L);
+		Recipe recipe = new Recipe();
+		recipe.setId(1L);
+		User user = new User();
+		user.setId(2L);
+		LocalDate dateForEntity = LocalDate.now();
+
 		review.setDate(dateForEntity);
 		review.setDescription("Description of the review");
 		review.setRecipe(recipe);
 		review.setStars(Stars.FIVE);
+		review.setUser(user);
 		return review;
 	}
 

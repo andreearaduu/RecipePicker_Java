@@ -9,9 +9,10 @@ public class ReviewDto {
 	private Long id;
 	private String description;
 	private Stars stars;
-	private RecipeDto recipeDto;
 	private LocalDate date;
-
+    private long idRecipe;
+    private long idUser;
+    
 	public LocalDate getDate() {
 		return date;
 	}
@@ -44,12 +45,20 @@ public class ReviewDto {
 		this.stars = stars;
 	}
 
-	public RecipeDto getRecipeDto() {
-		return recipeDto;
+	public long getIdRecipe() {
+		return idRecipe;
 	}
 
-	public void setRecipeDto(RecipeDto recipeDto) {
-		this.recipeDto = recipeDto;
+	public void setIdRecipe(long idRecipe) {
+		this.idRecipe = idRecipe;
+	}
+
+	public long getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(long idUser) {
+		this.idUser = idUser;
 	}
 
 }

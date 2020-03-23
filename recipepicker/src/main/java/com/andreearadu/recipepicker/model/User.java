@@ -34,6 +34,9 @@ public class User {
 	private String name;
 	
 	@OneToMany
+	private Collection<Review> review;
+	
+	@OneToMany
 	private Collection<Recipe> ownRecipes;
 
 	@ManyToMany
@@ -94,4 +97,20 @@ public class User {
 		this.cookedRecipes = cookedRecipes;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Collection<Recipe> getOwnRecipes() {
+		return ownRecipes;
+	}
+
+	public void setOwnRecipes(Collection<Recipe> ownRecipes) {
+		this.ownRecipes = ownRecipes;
+	}
+	
 }
