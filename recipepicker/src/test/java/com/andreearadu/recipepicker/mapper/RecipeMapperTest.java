@@ -44,7 +44,6 @@ public class RecipeMapperTest {
 		assertThat(recipe.getCategory()).isEqualTo(recipeDto.getCategory());
 		assertThat(recipe.getCookingTimeInMinutes()).isEqualTo(recipeDto.getCookingTimeInMinutes());
 		assertThat(recipe.getDescription()).isEqualTo(recipeDto.getDescription());
-		assertThat(recipe.getUser().getId()).isEqualTo(recipeDto.getUserId());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

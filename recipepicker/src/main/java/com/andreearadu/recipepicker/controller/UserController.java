@@ -3,6 +3,7 @@ package com.andreearadu.recipepicker.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,28 +19,30 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public Collection<UserDto> getAllUsers() {
 		return userService.getAll();
 	}
 
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
+	@RequestMapping(value = "/user", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public UserDto getUserById(@RequestParam("id") long id) {
 		return userService.getUserById(id);
-	} 
-	
-	@RequestMapping(value = "/user/recipes/own", method = RequestMethod.GET)
-	public Collection<RecipeDto> getRecipesOwnedByUser(@RequestParam("id") long id) {
-		return userService.getRecipesOwnedByUser(id);
-	}
-	
-	@RequestMapping(value = "/user/recipes/favorite", method = RequestMethod.GET)
-	public Collection<RecipeDto> getFavoriteRecipesByUser(@RequestParam("id") long id) {
-		return userService.getFavoriteRecipesByUser(id);
 	}
 
-	@RequestMapping(value = "/user/recipes/cooked", method = RequestMethod.GET)
-	public Collection<RecipeDto> getCookedRecipesByUser(@RequestParam("id") long id) {
-		return userService.getCookedRecipesByUser(id);
+	@RequestMapping(value = "/{userId}/recipes/", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	public Collection<RecipeDto> getFavoriteRecipesByUser(@PathVariable("userId") long userId,
+			@RequestParam("recipeType") String recipeType) {
+
+		if (recipeType.equalsIgnoreCase("favorite")) {
+			return userService.getFavoriteRecipesByUser(userId);
+		}
+		if (recipeType.equals("cooked")) {
+			return userService.getCookedRecipesByUser(userId);
+		}
+		if (recipeType.equals("own")) {
+			return userService.getRecipesOwnedByUser(userId);
+		}
+		return userService.getRecipesOwnedByUser(userId);
+
 	}
 }

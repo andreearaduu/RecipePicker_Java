@@ -3,6 +3,7 @@ package com.andreearadu.recipepicker.controller;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,14 +31,14 @@ public class RecipeController {
 		return recipeService.getRecipesByNameLike(name);
 	}
 
-	@RequestMapping(value = "/recipe/ingredients", method = RequestMethod.GET)
-	public Collection<IngredientDto> getIngredientsForRecipe(@RequestParam("id") long id) {
-		return recipeService.getIngredientsForRecipe(id);
+	@RequestMapping(value = "/{recipeId}/ingredients", method = RequestMethod.GET)
+	public Collection<IngredientDto> getIngredientsForRecipe(@PathVariable("recipeId") long recipeId) {
+		return recipeService.getIngredientsForRecipe(recipeId);
 	}
 
-	@RequestMapping(value = "/recipe/reviews", method = RequestMethod.GET)
-	public Collection<ReviewDto> getReviewsForRecipe(@RequestParam("id") long id) {
-		return recipeService.getReviewsForRecipe(id);
+	@RequestMapping(value = "/{recipeId}/reviews", method = RequestMethod.GET)
+	public Collection<ReviewDto> getReviewsForRecipe(@PathVariable("recipeId") long recipeId) {
+		return recipeService.getReviewsForRecipe(recipeId);
 	}
 
 }
