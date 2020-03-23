@@ -3,7 +3,9 @@ package com.andreearadu.recipepicker.mapper;
 import org.springframework.stereotype.Component;
 
 import com.andreearadu.recipepicker.dto.ReviewDto;
+import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.Review;
+import com.andreearadu.recipepicker.model.User;
 
 @Component
 public class ReviewMapper {
@@ -31,8 +33,12 @@ public class ReviewMapper {
 		review.setDate(reviewDto.getDate());
 		review.setDescription(reviewDto.getDescription());
 		review.setStars(reviewDto.getStars());
-		review.getRecipe().setId(reviewDto.getIdRecipe());
-		review.getUser().setId(reviewDto.getIdUser());
+		User user=new User();
+		user.setId(reviewDto.getIdUser());
+		review.setUser(user);
+		Recipe recipe=new Recipe();
+		recipe.setId(reviewDto.getIdRecipe());
+		review.setRecipe(recipe);
 		return review;
 
 	}
