@@ -1,7 +1,6 @@
 package com.andreearadu.recipepicker.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -18,7 +17,6 @@ import com.andreearadu.recipepicker.mapper.UserMapper;
 import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
 import com.andreearadu.recipepicker.model.User;
-import com.andreearadu.recipepicker.repository.RecipeRepository;
 import com.andreearadu.recipepicker.repository.UserRepository;
 
 public class UserServiceImplTest {
@@ -26,7 +24,6 @@ public class UserServiceImplTest {
 	private UserMapper userMapper;
 	private RecipeMapper recipeMapper;
 	private UserRepository repository;
-	private RecipeRepository recipeRepository;
 
 	private UserServiceImpl service;
 
@@ -34,10 +31,9 @@ public class UserServiceImplTest {
 	public void setUp() {
 
 		repository = mock(UserRepository.class);
-		recipeRepository=mock(RecipeRepository.class);
 		userMapper = new UserMapper();
 		recipeMapper=new RecipeMapper();
-		service = new UserServiceImpl(repository, userMapper,recipeRepository,recipeMapper);
+		service = new UserServiceImpl(repository, userMapper,recipeMapper);
 
 		Collection<User> users=new HashSet<>();
 		User user1=initUser(1,"email" , "name");
@@ -62,7 +58,6 @@ public class UserServiceImplTest {
 		when(repository.findAll()).thenReturn(users);
 		when(repository.findById(1L)).thenReturn(Optional.of(user1));
 		when(repository.findById(9L)).thenThrow(UserNotFoundException.class);
-		
 	}
 
 	@Test
@@ -104,52 +99,6 @@ public class UserServiceImplTest {
 	@Test(expected = UserNotFoundException.class)
 	public void getCookedRecipesByUserNotFoundTest() {
 		service.getCookedRecipesByUser(9);
-	}
-	
-	@Test
-	public void addOwnRecipeToUserTest() {
-		
-		Recipe recipe=initRecipe("name", Category.APPETIZER, 90);
-		
-		when(recipeRepository.save(any())).thenReturn(recipe);
-		
-		assertEquals(recipe.getId(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getId());
-		assertEquals(recipe.getCategory(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getCategory());
-		assertEquals(recipe.getCookingTimeInMinutes(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getCookingTimeInMinutes());
-		assertEquals(recipe.getDescription(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getDescription());
-		assertEquals(recipe.getName(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getName());
-		assertEquals(recipe.getUser().getId(), service.addOwnRecipe(recipeMapper.toDto(recipe), 1).getUserId());
-
-	}
-	@Test
-	public void addFavoriteRecipeToUserTest() {
-		
-		Recipe recipe=initRecipe("name", Category.APPETIZER, 90);
-		
-		when(recipeRepository.save(any())).thenReturn(recipe);
-		
-		assertEquals(recipe.getId(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getId());
-		assertEquals(recipe.getCategory(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getCategory());
-		assertEquals(recipe.getCookingTimeInMinutes(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getCookingTimeInMinutes());
-		assertEquals(recipe.getDescription(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getDescription());
-		assertEquals(recipe.getName(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getName());
-		assertEquals(recipe.getUser().getId(), service.addFavoriteRecipe(recipeMapper.toDto(recipe), 1).getUserId());
-
-	}
-	@Test
-	public void addCookedRecipeToUserTest() {
-		
-		Recipe recipe=initRecipe("name", Category.APPETIZER, 90);
-		
-		when(recipeRepository.save(any())).thenReturn(recipe);
-		
-		assertEquals(recipe.getId(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getId());
-		assertEquals(recipe.getCategory(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getCategory());
-		assertEquals(recipe.getCookingTimeInMinutes(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getCookingTimeInMinutes());
-		assertEquals(recipe.getDescription(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getDescription());
-		assertEquals(recipe.getName(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getName());
-		assertEquals(recipe.getUser().getId(), service.addCookedRecipe(recipeMapper.toDto(recipe), 1).getUserId());
-
 	}
 	private User initUser(long id,String email,String name) {
 		User user=new User();

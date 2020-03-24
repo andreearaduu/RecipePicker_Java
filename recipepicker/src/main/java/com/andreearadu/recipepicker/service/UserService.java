@@ -16,10 +16,4 @@ public interface UserService {
 	Collection<RecipeDto> getFavoriteRecipesByUser(long id);
 
 	Collection<RecipeDto> getCookedRecipesByUser(long id);
-	
-	RecipeDto addOwnRecipe(RecipeDto recipeDto,long userId);
-
-	RecipeDto addFavoriteRecipe(RecipeDto recipeDto, long userId);
-
-	RecipeDto addCookedRecipe(RecipeDto recipeDto, long userId);
 }
