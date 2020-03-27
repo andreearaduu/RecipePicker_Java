@@ -53,6 +53,19 @@ public class Recipe {
 
 	@ManyToMany
 	private Collection<User> userCookedRecepies;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "recipeType", nullable = false)
+	@NotNull
+	private RecipeType recipeType;
+
+	public RecipeType getRecipeType() {
+		return recipeType;
+	}
+
+	public void setRecipeType(RecipeType recipeType) {
+		this.recipeType = recipeType;
+	}
 
 	public Long getId() {
 		return id;

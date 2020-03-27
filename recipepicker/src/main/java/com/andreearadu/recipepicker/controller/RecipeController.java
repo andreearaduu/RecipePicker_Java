@@ -21,22 +21,22 @@ public class RecipeController {
 	@Autowired
 	RecipeService recipeService;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public Collection<RecipeDto> getAllRecipes() {
 		return recipeService.getAllRecipes();
 	}
 
-	@RequestMapping(value = "/recipe", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipe", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public Collection<RecipeDto> getRecipeByName(@RequestParam("name") String name) {
 		return recipeService.getRecipesByNameLike(name);
 	}
 
-	@RequestMapping(value = "/{recipeId}/ingredients", method = RequestMethod.GET)
+	@RequestMapping(value = "/{recipeId}/ingredients", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public Collection<IngredientDto> getIngredientsForRecipe(@PathVariable("recipeId") long recipeId) {
 		return recipeService.getIngredientsForRecipe(recipeId);
 	}
 
-	@RequestMapping(value = "/{recipeId}/reviews", method = RequestMethod.GET)
+	@RequestMapping(value = "/{recipeId}/reviews", method = RequestMethod.GET,consumes = "application/json", produces = "application/json")
 	public Collection<ReviewDto> getReviewsForRecipe(@PathVariable("recipeId") long recipeId) {
 		return recipeService.getReviewsForRecipe(recipeId);
 	}

@@ -19,6 +19,7 @@ public class RecipeMapper {
 		recipeDto.setCookingTimeInMinutes(recipe.getCookingTimeInMinutes());
 		recipeDto.setDescription(recipe.getDescription());
 		recipeDto.setUserId(recipe.getUser().getId());
+		recipeDto.setRecipeType(recipe.getRecipeType());
 		return recipeDto;
 	}
 
@@ -32,6 +33,7 @@ public class RecipeMapper {
 		recipe.setCategory(recipeDto.getCategory());
 		recipe.setCookingTimeInMinutes(recipeDto.getCookingTimeInMinutes());
 		recipe.setDescription(recipeDto.getDescription());
+		recipe.setRecipeType(recipeDto.getRecipeType());
 		return recipe;
 	}
 
