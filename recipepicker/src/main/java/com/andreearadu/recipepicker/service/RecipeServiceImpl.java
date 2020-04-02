@@ -9,11 +9,11 @@ import org.springframework.stereotype.Service;
 import com.andreearadu.recipepicker.dto.IngredientDto;
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.ReviewDto;
-import com.andreearadu.recipepicker.exceptions.IllegalRecipeNameException;
 import com.andreearadu.recipepicker.exceptions.RecipeNotFoundException;
 import com.andreearadu.recipepicker.mapper.IngredientMapper;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.ReviewMapper;
+import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.repository.RecipeRepository;
 
 @Service
@@ -33,22 +33,17 @@ public class RecipeServiceImpl implements RecipeService {
 		this.recipeMapper = recipeMapper;
 		this.reviewMapper = reviewMapper;
 		this.ingredientMapper = ingredientMapper;
+		
 	}
 
 	@Override
-	public Collection<RecipeDto> getAllRecipes() {
-		return recipeRepository.findAll().stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+	public Collection<RecipeDto> getAllRecipes(String recipeName, Category category,Integer startCookingTime, 
+			Integer endCookingTime,Collection<String>ingredientsName){
+	    return recipeRepository.getAll(recipeName, category,startCookingTime,endCookingTime,ingredientsName).
+	    		stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+		
 	}
-
-	@Override
-	public Collection<RecipeDto> getRecipesByNameLike(String recipeName) {
-		if (recipeName == null) {
-			throw new IllegalRecipeNameException("Name parameter is null");
-		}
-		return recipeRepository.findByNameLike(recipeName).stream().map(recipeMapper::toDto)
-				.collect(Collectors.toSet());
-	}
-
+	
 	@Override
 	public Collection<ReviewDto> getReviewsForRecipe(long id) {
 		return recipeRepository.findById(id).orElseThrow(() -> new RecipeNotFoundException(id)).getReviews().stream().map(reviewMapper::toDto)

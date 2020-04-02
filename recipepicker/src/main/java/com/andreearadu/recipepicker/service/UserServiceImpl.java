@@ -13,6 +13,7 @@ import com.andreearadu.recipepicker.exceptions.UserNotFoundException;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.UserMapper;
 import com.andreearadu.recipepicker.model.Recipe;
+
 import com.andreearadu.recipepicker.model.User;
 import com.andreearadu.recipepicker.repository.RecipeRepository;
 import com.andreearadu.recipepicker.repository.UserRepository;
@@ -26,7 +27,8 @@ public class UserServiceImpl implements UserService {
 	private final RecipeRepository recipeRepository;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RecipeRepository recipeRepository,RecipeMapper recipeMapper) {
+	public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RecipeRepository recipeRepository,
+			RecipeMapper recipeMapper) {
 
 		this.repository = userRepository;
 		this.userMapper = userMapper;
@@ -41,70 +43,43 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto getUserById(long id) {
-		return userMapper.toDto(
-				repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
+		return userMapper.toDto(repository.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
 	}
 
 	@Override
-	public Collection<RecipeDto> getRecipesOwnedByUser(long id) {
-		return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id))
-				.getOwnRecipes().stream().map(recipeMapper::toDto)
-				.collect(Collectors.toSet());
-	}
+	public Collection<RecipeDto> getRecipesForUser(long id, String recipeType) {
+		User user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+		switch (recipeType) {
+		case "favorite":
+			return user.getFavoriteRecipes().
+					stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+		case "cooked":
+			return user.getCookedRecipes().
+					stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+		default:
+			return user.getOwnRecipes().
+					stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+		}
 
+	}
 	@Override
-	public Collection<RecipeDto> getFavoriteRecipesByUser(long id) {
-		return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id))
-				.getFavoriteRecipes().stream().map(recipeMapper::toDto)
-				.collect(Collectors.toSet());
-	}
-
-	@Override
-	public Collection<RecipeDto> getCookedRecipesByUser(long id) {
-		return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id))
-				.getCookedRecipes().stream().map(recipeMapper::toDto)
-				.collect(Collectors.toSet());
-	}
-
-    @Override
-	public RecipeDto addOwnRecipe(RecipeDto recipeDto, long userId) {
+	public RecipeDto addRecipeToUser(RecipeDto recipeDto, long userId) {
 		if (recipeDto == null) {
 			throw new IllegalRecipeParameterException("Recipe parameter is null");
 		}
+		
 		User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
 		Recipe recipe = recipeMapper.toEntity(recipeDto);
-
 		recipe.setUser(user);
-		user.getOwnRecipes().add(recipe);
-
-		return recipeMapper.toDto(recipeRepository.save(recipe));
-	}
-
-	@Override
-	public RecipeDto addFavoriteRecipe(RecipeDto recipeDto, long userId) {
-		if (recipeDto == null) {
-			throw new IllegalRecipeParameterException("Recipe parameter is null");
+		
+		switch (recipe.getRecipeType().toString()) {
+		case "favorite":
+			user.getFavoriteRecipes().add(recipe);
+		case "cooked":
+			user.getCookedRecipes().add(recipe);
+		default:
+			user.getOwnRecipes().add(recipe);
 		}
-		User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-		Recipe recipe = recipeMapper.toEntity(recipeDto);
-
-		recipe.setUser(user);
-		user.getFavoriteRecipes().add(recipe);
-
-		return recipeMapper.toDto(recipeRepository.save(recipe));
-	}
-
-	@Override
-	public RecipeDto addCookedRecipe(RecipeDto recipeDto, long userId) {
-		if (recipeDto == null) {
-			throw new IllegalRecipeParameterException("Recipe parameter is null");
-		}
-		User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-		Recipe recipe = recipeMapper.toEntity(recipeDto);
-
-		recipe.setUser(user);
-		user.getCookedRecipes().add(recipe);
-
-		return recipeMapper.toDto(recipeRepository.save(recipe));
+        return recipeMapper.toDto(recipeRepository.save(recipe));
 	}
 }
