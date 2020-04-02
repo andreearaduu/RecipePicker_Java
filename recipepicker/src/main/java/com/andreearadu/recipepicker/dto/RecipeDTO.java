@@ -1,6 +1,7 @@
 package com.andreearadu.recipepicker.dto;
 
 import com.andreearadu.recipepicker.model.Category;
+import com.andreearadu.recipepicker.model.RecipeType;
 
 public class RecipeDto {
 
@@ -10,7 +11,17 @@ public class RecipeDto {
 	private int cookingTimeInMinutes;
 	private Category category;
     private long userId;
+    private RecipeType recipeType;
     
+    
+	public RecipeType getRecipeType() {
+		return recipeType;
+	}
+
+	public void setRecipeType(RecipeType recipeType) {
+		this.recipeType = recipeType;
+	}
+
 	public Long getId() {
 		return id;
 	}
