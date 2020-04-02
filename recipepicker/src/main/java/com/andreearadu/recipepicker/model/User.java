@@ -45,16 +45,16 @@ public class User {
 	@ManyToMany
 	private Collection<Recipe> cookedRecipes;
 
-	public void addOwnRecipes(Recipe recipe) {
-		ownRecipes.add(recipe);
+	public void addOwnRecipes(Collection<Recipe> recipes) {
+		this.ownRecipes=recipes;
 	}
 
-	public void addToFavoriteRecipes(Recipe recipe) {
-		favoriteRecipes.add(recipe);
+	public void addToFavoriteRecipes(Collection<Recipe> recipes) {
+		this.favoriteRecipes=recipes;
 	}
 
-	public void addToCookedRecipes(Recipe recipe) {
-		cookedRecipes.add(recipe);
+	public void addToCookedRecipes(Collection<Recipe> recipes) {
+		this.cookedRecipes=recipes;
 	}
 
 	public Long getId() {

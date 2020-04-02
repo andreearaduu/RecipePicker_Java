@@ -47,8 +47,6 @@ public class ReviewMapperTest {
 		assertThat(review.getDate().toString()).isEqualTo(reviewDto.getDate().toString());
 		assertThat(review.getDescription()).isEqualTo(reviewDto.getDescription());
 		assertThat(review.getStars()).isEqualTo(reviewDto.getStars());
-		assertThat(review.getUser().getId()).isEqualTo(reviewDto.getIdUser());
-		assertThat(review.getRecipe().getId()).isEqualTo(reviewDto.getIdRecipe());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -8,6 +8,7 @@ import org.junit.Test;
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.model.Recipe;
+import com.andreearadu.recipepicker.model.RecipeType;
 import com.andreearadu.recipepicker.model.User;
 
 public class RecipeMapperTest {
@@ -31,6 +32,7 @@ public class RecipeMapperTest {
 		assertThat(recipeDto.getCookingTimeInMinutes()).isEqualTo(recipe.getCookingTimeInMinutes());
 		assertThat(recipeDto.getDescription()).isEqualTo(recipe.getDescription());
         assertThat(recipeDto.getUserId()).isEqualTo(recipe.getUser().getId());
+        assertThat(recipeDto.getRecipeType()).isEqualTo(recipe.getRecipeType());
 	}
 
 	@Test
@@ -44,7 +46,7 @@ public class RecipeMapperTest {
 		assertThat(recipe.getCategory()).isEqualTo(recipeDto.getCategory());
 		assertThat(recipe.getCookingTimeInMinutes()).isEqualTo(recipeDto.getCookingTimeInMinutes());
 		assertThat(recipe.getDescription()).isEqualTo(recipeDto.getDescription());
-		assertThat(recipe.getUser().getId()).isEqualTo(recipeDto.getUserId());
+		assertThat(recipe.getRecipeType()).isEqualTo(recipeDto.getRecipeType());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -67,6 +69,7 @@ public class RecipeMapperTest {
 		recipeDto.setCookingTimeInMinutes(20);
 		recipeDto.setDescription("description of the recipe");
 		recipeDto.setUserId(1L);
+		recipeDto.setRecipeType(RecipeType.own);
 		return recipeDto;
 
 	}
@@ -80,6 +83,7 @@ public class RecipeMapperTest {
 		recipe.setCookingTimeInMinutes(50);
 		recipe.setDescription("description of the recipe");
 		recipe.setUser(user);
+		recipe.setRecipeType(RecipeType.own);
 		return recipe;
 	}
 }
