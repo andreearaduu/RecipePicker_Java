@@ -22,8 +22,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse();
         error.setTime(LocalDateTime.now());
         error.setError(ex.getMessage());
-        error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-
+      
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
