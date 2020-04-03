@@ -30,7 +30,7 @@ public class UserController {
 		return userService.getUserById(id);
 	}
 
-	@RequestMapping(value = "/{userId}/recipes/", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/{userId}/recipe/", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	public Collection<RecipeDto> getFavoriteRecipesByUser(@PathVariable("userId") long userId,
 			@RequestParam("recipeType") String recipeType) {	
 			return userService.getRecipesForUser(userId, recipeType);
