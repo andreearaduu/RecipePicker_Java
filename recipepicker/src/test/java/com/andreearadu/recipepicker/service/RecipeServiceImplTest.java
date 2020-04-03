@@ -12,7 +12,6 @@ import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.andreearadu.recipepicker.exceptions.IllegalRecipeNameException;
 import com.andreearadu.recipepicker.exceptions.RecipeNotFoundException;
 import com.andreearadu.recipepicker.mapper.IngredientMapper;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
@@ -65,31 +64,23 @@ public class RecipeServiceImplTest {
 		ingredientOne.setName("sweet cheese");
 		ingredients.add(ingredientOne);
 		recipeOne.setIngredients(ingredients);
-		
 
-		when(repository.findAll()).thenReturn(recipes);
-		when(repository.findByNameLike("cake")).thenReturn(recipes);
+		when(repository.getAll(null,Category.CAKES,null,null,null)).thenReturn(recipes);
+		when(repository.getAll("cake",null,null,null,null)).thenReturn(recipes);
 		when(repository.findById(1L)).thenReturn(Optional.of(recipeOne));
-	
-		when(repository.findByNameLike(null)).thenThrow(IllegalRecipeNameException.class);
 		when(repository.findById(9L)).thenThrow(RecipeNotFoundException.class);
 	}
 
 	@Test
-	public void getAllRecipesTest() {
-		assertEquals(3, service.getAllRecipes().size());
+	public void getAllRecipesFromCategoryTest() {
+		assertEquals(3, service.getAllRecipes(null,Category.CAKES,null,null,null).size());
 	}
-
-	@Test(expected = IllegalRecipeNameException.class)
-	public void getRecipeByNullNameLikeTest() {
-		service.getRecipesByNameLike(null);
-	}
-
 	@Test
-	public void getRecipeByNameLikeTest() {
-		assertEquals(3, service.getRecipesByNameLike("cake").size());
+	public void getAllRecipesByNameLikeTest() {
+		assertEquals(3, service.getAllRecipes("cake",null,null,null,null).size());
 	}
 	
+
 	@Test
 	public void getReviewsForRecipeTest() {
 		assertEquals(2, service.getReviewsForRecipe(1).size());
