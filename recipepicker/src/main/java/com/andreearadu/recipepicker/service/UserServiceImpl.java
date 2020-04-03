@@ -72,10 +72,10 @@ public class UserServiceImpl implements UserService {
 		Recipe recipe = recipeMapper.toEntity(recipeDto);
 		recipe.setUser(user);
 		
-		switch (recipe.getRecipeType().toString()) {
-		case "favorite":
+		switch (recipe.getRecipeType()) {
+		case favorite:
 			user.getFavoriteRecipes().add(recipe);
-		case "cooked":
+		case cooked:
 			user.getCookedRecipes().add(recipe);
 		default:
 			user.getOwnRecipes().add(recipe);
