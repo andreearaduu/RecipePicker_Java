@@ -5,14 +5,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.andreearadu.recipepicker.exceptions.RecipeNotFoundException;
+import com.andreearadu.recipepicker.filter.RecipeFilter;
 import com.andreearadu.recipepicker.mapper.IngredientMapper;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.ReviewMapper;
@@ -44,7 +48,7 @@ public class RecipeServiceImplTest {
 		service = new RecipeServiceImpl( repository,  recipeMapper,  reviewMapper,
 				 ingredientMapper);
 
-		Collection<Recipe> recipes = new HashSet<>();
+		List<Recipe> recipes = new ArrayList<>();
 		Recipe recipeOne = initRecipe("cheese cake", Category.CAKES, 50,1L);
 		Recipe recipeTwo = initRecipe("cake", Category.CAKES, 20,2L);
 		Recipe recipeThree = initRecipe("coffe cake", Category.CAKES, 40,3L);
@@ -64,23 +68,52 @@ public class RecipeServiceImplTest {
 		ingredientOne.setName("sweet cheese");
 		ingredients.add(ingredientOne);
 		recipeOne.setIngredients(ingredients);
-
+		
+		List<Recipe> recipesWithIngredientsNameLike = new ArrayList<>();
+		recipesWithIngredientsNameLike.add(recipeOne);
+		Collection<String> ingredientsName=new HashSet<>();
+		ingredientsName.add("sweet cheese");
+		
 		when(repository.getAll(null,Category.CAKES,null,null,null)).thenReturn(recipes);
 		when(repository.getAll("cake",null,null,null,null)).thenReturn(recipes);
+		when(repository.getAll(null,null,20,null,null)).thenReturn(recipes);
+		when(repository.getAll(null,null,null,60,null)).thenReturn(recipes);
+		when(repository.getAll(null,null,null,null,ingredientsName)).thenReturn(recipesWithIngredientsNameLike);
 		when(repository.findById(1L)).thenReturn(Optional.of(recipeOne));
 		when(repository.findById(9L)).thenThrow(RecipeNotFoundException.class);
 	}
 
 	@Test
 	public void getAllRecipesFromCategoryTest() {
-		assertEquals(3, service.getAllRecipes(null,Category.CAKES,null,null,null).size());
+		RecipeFilter filterForCategory = new RecipeFilter(new HashMap<>());
+		filterForCategory.setCategory(Category.CAKES);
+		assertEquals(3, service.getAllRecipes(filterForCategory).size());
 	}
 	@Test
 	public void getAllRecipesByNameLikeTest() {
-		assertEquals(3, service.getAllRecipes("cake",null,null,null,null).size());
+		RecipeFilter filterForRecipeName = new RecipeFilter(new HashMap<>());
+		filterForRecipeName.setRecipeName("cake");
+		assertEquals(3, service.getAllRecipes(filterForRecipeName).size());
 	}
-	
+	@Test
+	public void getAllRecipesByCookingTimeStartingWith() {
+		RecipeFilter filterForCookingTimeStartingWith = new RecipeFilter(new HashMap<>());
+		filterForCookingTimeStartingWith.setStartCookingTime(20);
+		assertEquals(3, service.getAllRecipes(filterForCookingTimeStartingWith).size());
+	}
+	public void getAllRecipesByCookingTimeEndingWith() {
+		RecipeFilter filterForCookingTimeEndingWith = new RecipeFilter(new HashMap<>());
+		filterForCookingTimeEndingWith.setStartCookingTime(50);
+		assertEquals(3, service.getAllRecipes(filterForCookingTimeEndingWith).size());
+	}
 
+	public void getAllRecipesByrIngredientsName() {
+		Collection<String> ingredientsName=new HashSet<>();
+		ingredientsName.add("sweet cheese");
+		RecipeFilter filterForIngredientsName = new RecipeFilter(new HashMap<>());
+		filterForIngredientsName.setIngredientsName(ingredientsName);
+		assertEquals(3, service.getAllRecipes(filterForIngredientsName).size());
+	}
 	@Test
 	public void getReviewsForRecipeTest() {
 		assertEquals(2, service.getReviewsForRecipe(1).size());
