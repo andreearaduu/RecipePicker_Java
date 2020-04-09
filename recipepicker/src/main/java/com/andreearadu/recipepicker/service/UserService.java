@@ -14,4 +14,6 @@ public interface UserService {
 	Collection<RecipeDto> getRecipesForUser(long id, String recipeType);
 
 	RecipeDto addRecipeToUser(RecipeDto recipeDto, long userId);
+
+	void removeRecipeFromUser(long recipeId, long userId);
 }

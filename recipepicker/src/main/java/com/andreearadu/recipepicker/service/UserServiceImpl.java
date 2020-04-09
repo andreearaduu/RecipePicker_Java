@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.UserDto;
 import com.andreearadu.recipepicker.exceptions.IllegalRecipeParameterException;
+import com.andreearadu.recipepicker.exceptions.IllegalUserParameterException;
+import com.andreearadu.recipepicker.exceptions.RecipeNotFoundException;
 import com.andreearadu.recipepicker.exceptions.UserNotFoundException;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.UserMapper;
@@ -62,16 +64,17 @@ public class UserServiceImpl implements UserService {
 		}
 
 	}
+
 	@Override
 	public RecipeDto addRecipeToUser(RecipeDto recipeDto, long userId) {
 		if (recipeDto == null) {
 			throw new IllegalRecipeParameterException("Recipe parameter is null");
 		}
-		
+
 		User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
 		Recipe recipe = recipeMapper.toEntity(recipeDto);
 		recipe.setUser(user);
-		
+
 		switch (recipe.getRecipeType()) {
 		case favorite:
 			user.getFavoriteRecipes().add(recipe);
@@ -80,6 +83,29 @@ public class UserServiceImpl implements UserService {
 		default:
 			user.getOwnRecipes().add(recipe);
 		}
-        return recipeMapper.toDto(recipeRepository.save(recipe));
+		return recipeMapper.toDto(recipeRepository.save(recipe));
+	}
+
+	@Override
+	public void removeRecipeFromUser(long recipeId, long userId) {
+		if (recipeId == 0) {
+			throw new IllegalRecipeParameterException("Recipe parameter is null");
+		}
+		if (userId == 0) {
+			throw new IllegalUserParameterException("Recipe parameter is null");
+		}
+
+		User user = repository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+		Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new RecipeNotFoundException(userId));
+
+		switch (recipe.getRecipeType()) {
+		case favorite:
+			user.getFavoriteRecipes().remove(recipe);
+		case cooked:
+			user.getCookedRecipes().remove(recipe);
+		default:
+			user.getOwnRecipes().remove(recipe);
+		}
+		recipeRepository.delete(recipe);
 	}
 }
