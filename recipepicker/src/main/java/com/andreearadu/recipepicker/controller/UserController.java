@@ -30,32 +30,16 @@ public class UserController {
 		return userService.getUserById(id);
 	}
 
-	@RequestMapping(value = "/{userId}/recipes/", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/{userId}/recipe/", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
 	public Collection<RecipeDto> getFavoriteRecipesByUser(@PathVariable("userId") long userId,
-			@RequestParam("recipeType") String recipeType) {
-		switch (recipeType) {
-		case "favorite":
-			return userService.getFavoriteRecipesByUser(userId);
-		case "cooked":
-			return userService.getCookedRecipesByUser(userId);
-		case "own":
-			return userService.getRecipesOwnedByUser(userId);
-		default:
-			return userService.getRecipesOwnedByUser(userId);
-		}
+			@RequestParam("recipeType") String recipeType) {	
+			return userService.getRecipesForUser(userId, recipeType);
+		
 	}
 
 	@RequestMapping(value = "/{userId}/recipe", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public RecipeDto addRecipeToUser(@PathVariable("userId") long userId, @RequestBody RecipeDto recipeDto) {
-		switch (recipeDto.getRecipeType().toString()) {
-		case "favorite":
-			return userService.addFavoriteRecipe(recipeDto, userId);
-		case "cooked":
-			return userService.addCookedRecipe(recipeDto, userId);
-		case "own":
-			return userService.addOwnRecipe(recipeDto, userId);
-		default:
-			return userService.addOwnRecipe(recipeDto, userId);
-		}
+		return userService.addRecipeToUser(recipeDto, userId);
+		
 	}
 }
