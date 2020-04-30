@@ -10,10 +10,10 @@ import com.andreearadu.recipepicker.dto.IngredientDto;
 import com.andreearadu.recipepicker.dto.RecipeDto;
 import com.andreearadu.recipepicker.dto.ReviewDto;
 import com.andreearadu.recipepicker.exceptions.RecipeNotFoundException;
+import com.andreearadu.recipepicker.filter.RecipeFilter;
 import com.andreearadu.recipepicker.mapper.IngredientMapper;
 import com.andreearadu.recipepicker.mapper.RecipeMapper;
 import com.andreearadu.recipepicker.mapper.ReviewMapper;
-import com.andreearadu.recipepicker.model.Category;
 import com.andreearadu.recipepicker.repository.RecipeRepository;
 
 @Service
@@ -37,10 +37,9 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public Collection<RecipeDto> getAllRecipes(String recipeName, Category category,Integer startCookingTime, 
-			Integer endCookingTime,Collection<String>ingredientsName){
-	    return recipeRepository.getAll(recipeName, category,startCookingTime,endCookingTime,ingredientsName).
-	    		stream().map(recipeMapper::toDto).collect(Collectors.toSet());
+	public Collection<RecipeDto> getAllRecipes(RecipeFilter filter){
+	    return recipeRepository.getAll(filter.getRecipeName(),filter.getCategory(),filter.getStartCookingTime(),filter.getEndCookingTime(),filter.getIngredientsName())
+	    		.stream().map(recipeMapper::toDto).collect(Collectors.toSet());
 		
 	}
 	

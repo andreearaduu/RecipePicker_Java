@@ -1,7 +1,6 @@
 package com.andreearadu.recipepicker.repository;
 
 import java.util.ArrayList;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -34,10 +33,10 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 
 	@Override
 	public List<Recipe> getAll(String recipeName, Category category, Integer startCookingTime, Integer endCookingTime,
-			Collection<String> ingredientsName) {
+				Collection<String> ingredientsName) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Recipe> criteriaQuery = criteriaBuilder.createQuery(Recipe.class);
-
+		criteriaQuery.distinct(true); 
 		Root<Recipe> recipeRoot = criteriaQuery.from(Recipe.class);
 		List<Predicate> predicates = new ArrayList<>();
 
@@ -49,20 +48,23 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom {
 			predicates.add(criteriaBuilder.like(recipeRoot.get("name"), "%" + recipeName + "%"));
 		}
 
-		if (startCookingTime != null) {
+		if ( startCookingTime != null) {
 			predicates.add(
 					criteriaBuilder.greaterThanOrEqualTo(recipeRoot.get("cookingTimeInMinutes"), startCookingTime));
 		}
-		if (endCookingTime != null) {
+		if (endCookingTime!= null) {
 			predicates.add(criteriaBuilder.lessThanOrEqualTo(recipeRoot.get("cookingTimeInMinutes"), endCookingTime));
 		}
 
 		if (ingredientsName != null && !ingredientsName.isEmpty()) {
-			Join<Recipe, Ingredient> recipeIngredients = recipeRoot.join("ingredients", JoinType.INNER);
-			predicates.add(recipeIngredients.get("name").in(ingredientsName));
+			
+			Join<Recipe, Ingredient> recipeIngredient = recipeRoot.join("ingredients", JoinType.INNER);
+			predicates.add(recipeIngredient.get("name").in(ingredientsName));
 		}
 		criteriaQuery.where(predicates.toArray(new Predicate[0]));
+		
 		TypedQuery<Recipe> query = entityManager.createQuery(criteriaQuery);
+		
 		return query.getResultList();
 	}
 
