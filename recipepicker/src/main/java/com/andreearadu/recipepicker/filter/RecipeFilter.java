@@ -1,6 +1,7 @@
 package com.andreearadu.recipepicker.filter;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.andreearadu.recipepicker.model.Category;
@@ -8,9 +9,9 @@ import com.andreearadu.recipepicker.model.Category;
 public class RecipeFilter {
 	private Map<String, Object> myFiltersMap;
 
-	public RecipeFilter(Map<String, Object> myFiltersMap) {
+	public RecipeFilter() {
 		super();
-		this.myFiltersMap = myFiltersMap;
+		this.myFiltersMap = new HashMap<String, Object>();
 	}
 
 	public void setRecipeName(String recipeName) {

@@ -1,10 +1,16 @@
 package com.andreearadu.recipepicker.model;
 
 import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,13 +22,16 @@ import javax.validation.constraints.NotNull;
 public class User {
 
 	@Id
-	@GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
 
 	@Column(name = "password", nullable = false)
 	@NotNull
 	private String password;
+
+	@ManyToMany
+	private Collection<Role> roles;
 
 	@Email
 	@Column(name = "email", unique = true, nullable = false)
@@ -32,29 +41,33 @@ public class User {
 	@Column(name = "name", unique = true, nullable = false)
 	@NotNull
 	private String name;
-	
+
 	@OneToMany
 	private Collection<Review> review;
-	
+
 	@OneToMany
 	private Collection<Recipe> ownRecipes;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_favoriteRecipes", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "recipe_id") })
 	private Collection<Recipe> favoriteRecipes;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_cookedRecipes", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "recipe_id") })
 	private Collection<Recipe> cookedRecipes;
 
 	public void addOwnRecipes(Collection<Recipe> recipes) {
-		this.ownRecipes=recipes;
+		this.ownRecipes = recipes;
 	}
 
 	public void addToFavoriteRecipes(Collection<Recipe> recipes) {
-		this.favoriteRecipes=recipes;
+		this.favoriteRecipes = recipes;
 	}
 
 	public void addToCookedRecipes(Collection<Recipe> recipes) {
-		this.cookedRecipes=recipes;
+		this.cookedRecipes = recipes;
 	}
 
 	public Long getId() {
@@ -112,5 +125,22 @@ public class User {
 	public void setOwnRecipes(Collection<Recipe> ownRecipes) {
 		this.ownRecipes = ownRecipes;
 	}
+	
+	public Collection<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
+	
+	public Collection<Review> getReview() {
+		return review;
+	}
+
+	public void setReview(Collection<Review> review) {
+		this.review = review;
+	}
+	
 	
 }
