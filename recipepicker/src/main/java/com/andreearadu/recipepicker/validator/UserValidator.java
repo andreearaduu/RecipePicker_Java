@@ -19,17 +19,17 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserDto user = (UserDto) o;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "notEmpty");
         if (user.getName().length() < 6) {
-            errors.rejectValue("name", "Size.userForm.name");
+            errors.rejectValue("name", "size.userForm.name");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
-        if (user.getEmail().length() < 4) {
-            errors.rejectValue("name", "Size.userForm.email");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "notEmpty");
+        if (!user.getEmail().matches("^(.+)@(.+)$")) {
+            errors.rejectValue("email", "size.userForm.email");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "notEmpty");
         if (user.getPassword().length() < 8) {
-            errors.rejectValue("password", "Size.userForm.password");
+            errors.rejectValue("password", "size.userForm.password");
         }
     }
 }
