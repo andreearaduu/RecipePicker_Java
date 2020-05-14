@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.andreearadu.recipepicker.authentication.SimpleAuthenticationSuccessHandler;
+
 @Configuration
 @EnableWebSecurity
 @Order(1)
@@ -22,11 +24,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+	private SimpleAuthenticationSuccessHandler simpleAuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                    .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
                     .antMatchers(
                             "/registration",
                             "/home",
@@ -37,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/webjars/**").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    .formLogin()
+                    .formLogin().successHandler(simpleAuthenticationSuccessHandler)
                         .loginPage("/login")
                             .permitAll()
                 .and()

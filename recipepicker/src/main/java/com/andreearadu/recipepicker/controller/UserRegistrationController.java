@@ -69,5 +69,9 @@ public class UserRegistrationController {
 		return "/addRecipe";
 	}
 	
+	@GetMapping({"/admin"})
+	public String adminSection() {
+		return "/admin";
+	}
 	
 }
