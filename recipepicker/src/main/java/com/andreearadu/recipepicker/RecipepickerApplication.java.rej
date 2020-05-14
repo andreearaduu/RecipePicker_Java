@@ -1,0 +1,13 @@
+diff a/recipepicker/src/main/java/com/andreearadu/recipepicker/RecipepickerApplication.java b/recipepicker/src/main/java/com/andreearadu/recipepicker/RecipepickerApplication.java	(rejected hunks)
+@@ -2,9 +2,10 @@
+ 
+ import org.springframework.boot.SpringApplication;
+ import org.springframework.boot.autoconfigure.SpringBootApplication;
++import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+ 
+ @SpringBootApplication
+-public class RecipepickerApplication {
++public class RecipepickerApplication extends WebSecurityConfigurerAdapter{
+ 
+ 	public static void main(String[] args) {
+ 		SpringApplication.run(RecipepickerApplication.class, args);
