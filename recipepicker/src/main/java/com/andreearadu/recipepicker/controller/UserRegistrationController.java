@@ -58,9 +58,16 @@ public class UserRegistrationController {
 
         return "login";
     }
-
-	@GetMapping("/user")
-	public String userIndex() {
-		return "user/index";
+	
+	@GetMapping({"/home","/"})
+	public String homeApp() {
+		return "/home";
 	}
+	
+	@GetMapping({"/addRecipe"})
+	public String addRecipe() {
+		return "/addRecipe";
+	}
+	
+	
 }
